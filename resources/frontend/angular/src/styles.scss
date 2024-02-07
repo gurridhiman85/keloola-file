@@ -1,0 +1,123 @@
+  /* You can add global styles to this file, and also import other style files */
+  @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+  @import 'node_modules/ng-pick-datetime-ex/assets/style/picker.min.css';
+  @import '../node_modules/angular-calendar/css/angular-calendar.css';
+  @import '../src/assets//styles/color.scss';
+
+  .loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 56px;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .content {
+    padding-bottom: 10px !important;
+  }
+
+  .mat-mdc-select-arrow-wrapper {
+    display: none !important;
+  }
+
+  .close-button {
+    float: right;
+  }
+
+  .mat-mdc-dialog-title {
+    width: 90%;
+    color: #666 !important;
+    font-weight: normal !important;
+    font-size: 22px !important;
+    line-height: 46px !important;
+  }
+
+  .d-content {
+    padding: 24px !important;
+  }
+
+
+
+  .cdk-overlay-container {
+    z-index: 1039;
+  }
+
+  .file-preview-overlay-container {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+
+  .cdk-overlay-pane {
+    display: block !important;
+  }
+
+  .white-background {
+    background-color: #fff;
+  }
+
+  .cursor-pointer {
+    cursor: pointer;
+  }
+
+  .cal-month-view .cal-day-badge {
+    background-color: $text-primary !important;
+  }
+
+  .mat-mdc-select-placeholder {
+    font-size: 13px !important;
+    font-family: inherit;
+  }
+
+  tbody {
+    tr {
+      height: 40px !important;
+
+      td {
+        .mat-mdc-icon-button.mat-mdc-button-base {
+          width: 40px;
+          height: 40px !important;
+          padding: 0px !important;
+        }
+      }
+    }
+  }
+
+  thead {
+    tr {
+      height: 45px !important;
+    }
+  }
+
+  // .table-responsive {
+  //   max-height: calc(100vh - 269px);
+  // }
+
+  // @media (max-width: 1169px) {
+  //   .table-responsive {
+  //     max-height: calc(100vh - 280px);
+  //   }
+
+  //   section.content {
+  //     margin: 75px 15px 0 0px;
+  //   }
+  // }
+
+  // @media (max-width: 768px) {
+  //   .table-responsive {
+  //     max-height: none;
+  //   }
+  // }
+
+  .navbar .navbar-toggle {
+    color: #2c303b;
+  }
+
+  .sidebar {
+    margin-top: 8px;
+    border-radius: 0rem 0.5rem 0rem 0rem;
+  }

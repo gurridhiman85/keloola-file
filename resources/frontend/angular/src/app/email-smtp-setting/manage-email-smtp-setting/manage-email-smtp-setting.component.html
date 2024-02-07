@@ -1,0 +1,107 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <div class="breadcrumb-main">
+        <div class="row">
+          <div class="col-6">
+            <div class="breadcrumb-title">
+              <h2 *ngIf="!isEditMode">{{'ADD_EMAIL_SMTP_SETTING' | translate}}</h2>
+              <h2 *ngIf="isEditMode">{{'EDIT_EMAIL_SMTP_SETTING' | translate}}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="body">
+            <form [formGroup]="smtpSettingForm">
+              <div class="box box-primary">
+                <div class="box-body">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label class="form-label"> {{'HOST' | translate}}</label>
+                      <input formControlName="host" class="form-control" type="text">
+                      <div *ngIf="smtpSettingForm.get('host').touched && smtpSettingForm.get('host').errors">
+                        <div class="text-danger" *ngIf="smtpSettingForm.get('host').errors?.['required']">
+                          {{'HOST_IS_REQUIRED' | translate}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label"> {{'PORT' | translate}}</label>
+                      <input formControlName="port" class="form-control" type="number">
+                      <div *ngIf="smtpSettingForm.get('port').touched && smtpSettingForm.get('port').errors">
+                        <div class="text-danger" *ngIf="smtpSettingForm.get('port').errors?.['required']">
+                          {{'PORT_IS_REQUIRED' | translate}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">{{'USER_NAME' | translate}}</label>
+                      <input formControlName="userName" class="form-control" type="text">
+                      <div *ngIf="smtpSettingForm.get('userName').touched && smtpSettingForm.get('userName').errors">
+                        <div class="text-danger" *ngIf="smtpSettingForm.get('userName').errors?.['required']">
+                          {{'USER_NAME_IS_REQUIRED' | translate}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <label class="form-label">{{'PASSWORD' | translate}}</label>
+                      <input autocomplete="new-password" formControlName="password" class="form-control"
+                        type="password">
+                      <div *ngIf="smtpSettingForm.get('password').touched && smtpSettingForm.get('password').errors">
+                        <div class="text-danger" *ngIf="smtpSettingForm.get('password').errors?.['required']">
+                          {{'PASSWORD_IS_REQUIRED' | translate}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 status-switch">
+                      <div class="form-group">
+                        <mat-slide-toggle color="primary" formControlName="isEnableSSL">
+                          <span *ngIf="smtpSettingForm.get('isEnableSSL').value">
+                            {{'ENABLE_SSL' | translate}}
+                          </span>
+                          <span *ngIf="!smtpSettingForm.get('isEnableSSL').value">
+                            {{'ENABLE_SSL' | translate}}
+                          </span>
+                        </mat-slide-toggle>
+                      </div>
+                    </div>
+                    <div class="col-md-6 status-switch">
+                      <div class="form-group">
+                        <mat-slide-toggle color="primary" formControlName="isDefault">
+                          <span *ngIf="smtpSettingForm.get('isDefault').value">
+                            {{'IS_DEFAULT' | translate}}
+                          </span>
+                          <span *ngIf="!smtpSettingForm.get('isDefault').value">
+                            {{'IS_DEFAULT' | translate}}
+                          </span>
+                        </mat-slide-toggle>
+                      </div>
+                    </div>
+                    <div class="m-top-10 col-md-12">
+                      <ng-container *ngIf="isEditMode">
+                        <button class="btn btn-success btn-sm m-r-10" (click)="saveEmailSMTPSetting()"
+                          cdkFocusInitial><i class="fas fa-save"></i> {{'SAVE' | translate}}</button>
+                      </ng-container>
+                      <ng-container *ngIf="!isEditMode">
+                        <button class="btn btn-success btn-sm m-r-10" (click)="saveEmailSMTPSetting()"
+                          cdkFocusInitial><i class="fas fa-save"></i> {{'SAVE' | translate}}</button>
+                      </ng-container>
+                      <button type="button" class="btn btn-danger btn-sm" [routerLink]="['/email-smtp']"><i
+                          class="fas fa-times-circle"></i>
+                        {{'CANCEL' | translate}}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

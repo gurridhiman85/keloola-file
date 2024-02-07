@@ -1,0 +1,86 @@
+<div class="d-flex">
+  <h2 mat-dialog-title>{{'SEND_EMAIL' | translate}}</h2>
+  <button mat-icon-button class="close-button ms-auto" (click)="closeDialog()">
+    <mat-icon class="close-icon" color="warn">close</mat-icon>
+  </button>
+</div>
+<form [formGroup]="emailForm">
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="body">
+            <div class="row">
+              <div class="col-md-12 p-b-1">
+                <div class="input-group">
+                  <span class="input-group-text" id="toAddress">
+                    {{'TO' | translate}}
+                  </span>
+                  <input formControlName="toAddress" type="text" class="form-control" placeholder="To Email"
+                    aria-label="To" aria-describedby="toAddress">
+                </div>
+                <div class="text-danger"
+                  *ngIf="emailForm.get('toAddress').touched && emailForm.get('toAddress').hasError('required')">
+                  {{'TO_ADDRESS_IS_REQUIRED' | translate}}
+                </div>
+                <div class="text-danger"
+                  *ngIf="emailForm.get('toAddress').touched && emailForm.get('toAddress').hasError('email')">
+                  {{'EMAIL_IS_NOT_PROPER_FORMAT' | translate}}
+                </div>
+              </div>
+              <div class="col-md-12 pb-1">
+                <div class="input-group">
+                  <span class="input-group-text" id="subject">
+                    {{'SUBJECT' | translate}}
+                  </span>
+                  <input formControlName="subject" type="text" class="form-control" placeholder="Subject"
+                    aria-label="To" aria-describedby="subject">
+                </div>
+                <div class="text-danger"
+                  *ngIf="emailForm.get('subject').touched  && emailForm.get('subject').hasError('required')">
+                  {{'SUBJECT_IS_REQUIRED' | translate}}
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="font-weight-bold">
+                    {{'BODY' | translate}}
+                  </label>
+                  <div class="NgxEditor__Wrapper">
+                    <ckeditor [editor]="editor" [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic' ] }"
+                      formControlName="body"></ckeditor>
+                  </div>
+                  <div class="text-danger"
+                    *ngIf="emailForm.get('body').touched && emailForm.get('body').hasError('required')">
+                    {{'BODY_IS_REQUIRED' | translate}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 p-b-1">
+                <span class="input-group-text">
+                  {{'ATTACHMENT_DOCUMENT' | translate}} :: {{data?.name}}
+                </span>
+              </div>
+              <div class="loading-shade" *ngIf="isLoading">
+                <mat-spinner></mat-spinner>
+              </div>
+              <div class="col-md-12 mt-1">
+                <button (click)="sendEmail()" type="submit" class="btn btn-success">
+                  <i class="fas fa-paper-plane"></i>
+                  {{'SEND' | translate}}
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div mat-dialog-actions>
+    <button (click)="sendEmail()" type="submit" class="btn btn-success m-r-10">
+      <i class="fas fa-paper-plane"></i>
+      {{'SEND' | translate}}
+    </button>
+  </div> -->
+</form>

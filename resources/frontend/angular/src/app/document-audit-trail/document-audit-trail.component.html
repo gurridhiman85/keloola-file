@@ -1,0 +1,124 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <div class="breadcrumb-main">
+        <div class="row">
+          <div class="col-6">
+            <div class="breadcrumb-title">
+              <h2>{{'DOCUMENTS_AUDIT_TRAIL' | translate}}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="body">
+            <div class="row margin-2">
+              <div class="col-md-4 ">
+                <label class="form-label">{{'SEARCH_DOCUMENT_BY_NAME' | translate}}</label>
+                <input class="form-control" placeholder="{{'SEARCH_DOCUMENT_BY_NAME' | translate}}" #input>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">{{'SELECT_CATEGORY' | translate}}</label>
+                <mat-select class="form-select" placeholder="{{'SELECT_CATEGORY' | translate}}"
+                  (selectionChange)="onCategoryChange($event)">
+                  <mat-option [value]="">-- {{'NONE' | translate}} --</mat-option>
+                  <mat-option *ngFor="let category of allCategories" [value]="category.id">
+                    <div class="country-item" [ngStyle]="{'margin-left.px': category.deafLevel* 20}">
+                      <div *ngIf="!category.parentId">
+                        <b> {{category.name}}</b>
+                      </div>
+                      <div *ngIf="category.parentId">
+                        {{category.name}}
+                      </div>
+                    </div>
+                  </mat-option>
+                </mat-select>
+              </div>
+              <div class="col-md-4 ">
+                <label class="form-label">{{'SELECT_USER' | translate}}</label>
+                <mat-select class="form-select" placeholder="{{'SELECT_USER' | translate}}"
+                  (selectionChange)="onUserChange($event)">
+                  <mat-option [value]="">-- {{'NONE' | translate}} --</mat-option>
+                  <mat-option *ngFor="let user of users" [value]="user.id">
+                    {{user.firstName}} {{user.lastName}}
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="table-responsive">
+                  <table mat-table [dataSource]="dataSource" class="w-100" matSort matSortActive="createdDate"
+                    matSortDirection="desc" matSortDisableClear>
+                    <ng-container matColumnDef="documentName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'NAME' | translate}} </th>
+                      <td mat-cell *matCellDef="let document">
+                        {{document.documentName}}
+                        <ng-container *ngIf="document.documentMimeType;">.{{document.documentMimeType}}</ng-container>
+                        <br>
+                        <p style="font-size: 8pt; line-height: 1.2em; margin-top: 5px; margin-bottom: 5px;">
+                          Location : <span>{{ document.documentUrl | urlTransform }}/{{document.documentName}}
+                          <ng-container *ngIf="document.documentMimeType;">.{{document.documentMimeType}}</ng-container></span>
+                        </p>
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="categoryName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'CATEGORY_NAME' | translate}} </th>
+                      <td mat-cell *matCellDef="let document"> {{document.categoryName}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="createdDate">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'ACTION' | translate}} {{'DATE' |
+                        translate}}</th>
+                      <td mat-cell *matCellDef="let document"> {{document?.createdDate | date:"dd/MM/yyyy hh:mm:ss"}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="operationName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'OPERATION' | translate}} </th>
+                      <td mat-cell *matCellDef="let document"> {{document.operationName }} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="createdBy">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'BY_WHOM' | translate}} </th>
+                      <td mat-cell *matCellDef="let document"> {{document?.createdBy}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="permissionUser">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'TO_WHOM_USER' | translate}} </th>
+                      <!-- <td mat-cell *matCellDef="let document" *ngIf="document.is_anonymous == 1"> Anonymous </td> -->
+                      <td mat-cell *matCellDef="let document">
+                        <ng-container *ngIf="document.isAnonymous == 1">
+                          Anonymous
+                        </ng-container>
+                        <ng-container *ngIf="document.isAnonymous != 1">
+                          {{ document?.permissionUser }}
+                        </ng-container>
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="permissionRole">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'TO_WHOM_ROLE' | translate}} </th>
+                      <td mat-cell *matCellDef="let document"> {{document?.permissionRole}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                  <ng-container *ngIf="dataSource.count === 0">
+                    <div class="col-sm-12 m-t-15">
+                      <strong>{{'NO_DATA_FOUND' | translate}}</strong>
+                    </div>
+                  </ng-container>
+                  <mat-paginator [length]="documentResource.totalCount" [pageSize]="documentResource.pageSize"
+                    [pageSizeOptions]="[30,40,50]">
+                  </mat-paginator>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="loading-shade" *ngIf="dataSource.loading$ | async">
+  <mat-spinner></mat-spinner>
+</div>

@@ -1,0 +1,207 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <div class="breadcrumb-main">
+        <div class="row">
+          <div class="col-6">
+            <div class="breadcrumb-title">
+              <h2>{{'ASSIGNED_DOCUMENTS' | translate}}</h2>
+            </div>
+          </div>
+          <div class="col-6">
+            <ul class="breadcrumb-list">
+              <li class="breadcrumb-item bcrumb-1">
+                <ng-container *ngIf="breadCrumbArray.length > 0">
+                  <a *hasClaim="'ASSIGNED_DOCUMENTS_CREATE_DOCUMENT'" (click)="createNewFolder(selectedFolderId)"
+                    class="btn btn-outline-success btn-sm mx-2">
+                    <app-feather-icons [icon]="'Plus'" [class]="'btn-success'"></app-feather-icons>
+                    <span class="d-none d-sm-inline"> {{'CREATE_FOLDER' | translate}}</span>
+                  </a>
+                  <a *hasClaim="'ASSIGNED_DOCUMENTS_CREATE_DOCUMENT'" (click)="onAddDocument(selectedFolderId)"
+                    class="btn btn-outline-success btn-sm m-r-10">
+                    <app-feather-icons [icon]="'Plus'" [class]="'btn-success'"></app-feather-icons>
+                    <span class="d-none d-sm-inline"> {{'ADD_DOCUMENT' | translate}}</span>
+                  </a>
+                </ng-container>
+                <a (click)="onReminderList()" class="btn btn-danger btn-sm m-r-10 text-white">
+                  <app-feather-icons [icon]="'list'" [class]="'btn-danger'"></app-feather-icons>
+                  <span class="d-none d-sm-inline"> {{'MY_REMINDERS' | translate}}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="breadcrumb-title">
+              <h2 class="breadCrumbx_show">
+                <ng-container *ngIf="breadCrumbArray.length > 0">
+                  <div>
+                    <i class="fas fa-angle-double-left" (click)="getparentbreadCrumb(parentfolderId,true)"></i>
+                  </div>
+                </ng-container>
+                <div *ngFor="let obj of breadCrumbArray; let last = last; index as i" (click)="getparentbreadCrumb(obj.id,false)">
+                  <span [ngStyle]="{ 'color': (last ? 'black' : '#e16166') }">
+                      /{{ obj.name }}
+                  </span>
+                </div>
+
+              </h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="body">
+            <div class="row margin-2">
+              <div class="col-md-4 ">
+                <label class="form-label">{{'SEARCH_DOCUMENT_BY_NAME_OR_DESCRIPTION' | translate}}</label>
+                <input class="form-control" placeholder="{{'SEARCH_DOCUMENT_BY_NAME_OR_DESCRIPTION' | translate}}"
+                  #input>
+              </div>
+              <div class="col-md-4 ">
+                <label class="form-label">{{'SEARCH_DOCUMENT_BY_META_TAGS' | translate}}</label>
+                <input class="form-control" placeholder="{{'SEARCH_DOCUMENT_BY_META_TAGS' | translate}}" #metatag>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">{{'SELECT_CATEGORY' | translate}}</label>
+                <mat-select class="form-select" placeholder="{{'SELECT_CATEGORY' | translate}}"
+                  (selectionChange)="onCategoryChange($event)" [(ngModel)]="selectedCategoryId">
+                  <mat-option [value]="">-- {{'NONE' | translate}} --</mat-option>
+                  <mat-option *ngFor="let category of allCategories" [value]="category.id">
+                    <div class="country-item" [ngStyle]="{'margin-left.px': category.deafLevel* 20}">
+                      <div *ngIf="!category.parentId">
+                        <b> {{category.name}}</b>
+                      </div>
+                      <div *ngIf="category.parentId">
+                        {{category.name}}
+                      </div>
+                    </div>
+                  </mat-option>
+                </mat-select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <div class="table-responsive">
+                  <table mat-table [dataSource]="dataSource" class="w-100" matSort matSortActive="createdDate"
+                    matSortDirection="desc" matSortDisableClear>
+                    <ng-container matColumnDef="action">
+                      <th mat-header-cell *matHeaderCellDef>{{'ACTION' | translate}} </th>
+                      <td mat-cell *matCellDef="let document">
+                        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Action">
+                          <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                          <button class="btn btn-light btn-sm" mat-menu-item (click)="onDocumentView(document)"
+                            type="button">
+                            <mat-icon>visibility</mat-icon>
+                            {{'VIEW' | translate}}
+                          </button>
+                          <button class="btn btn-light btn-sm" mat-menu-item (click)="addComment(document)"
+                            type="button">
+                            <mat-icon> chat</mat-icon>
+                            {{'COMMENT' | translate}}
+                          </button>
+                          <button class="btn btn-light btn-sm" mat-menu-item (click)="addReminder(document)"
+                            type="button">
+                            <mat-icon>notifications</mat-icon>
+                            {{'ADD_REMINDER' | translate}}
+                          </button>
+                          <button mat-menu-item (click)="onVersionHistoryClick(document)">
+                            <mat-icon> history</mat-icon>
+                            {{'VERSION_HISOTRY' | translate}}
+                          </button>
+                          <ng-container *ngIf="document.createdBy == userDetails.user.id">
+                            <button mat-menu-item class="btn btn-light btn-sm"
+                              (click)="deleteDocumentOwnerScan(document)" type="button" *hasClaim="'ALL_DOCUMENTS_DELETE_DOCUMENT'" >
+                              <mat-icon>delete</mat-icon>
+                              {{'DELETE' | translate}}
+                            </button>
+                          </ng-container>
+                          <button mat-menu-item class="btn btn-light btn-sm"
+                            (click)="sendDocumentViaLink(document)" type="button" *hasClaim="'ALL_DOCUMENTS_SHARE_DOCUMENT'">
+                            <mat-icon>share</mat-icon>
+                            {{'SHARE_DOCUMENT' | translate}}
+                          </button>
+                          <ng-container *ngIf="document.isCopyMove">
+                            <ng-container *ngIf="document.createdBy == userDetails.user.id">
+                              <button mat-menu-item class="btn btn-light btn-sm"
+                                (click)="documentCopyAction(document)" type="button">
+                                <mat-icon>file_copy</mat-icon>
+                                {{'COPY_DOCUMENT' | translate}}
+                              </button>
+                              <button mat-menu-item class="btn btn-light btn-sm" type="button" (click)="documentMoveAction(document)">
+                                <mat-icon>file_copy</mat-icon>
+                                {{'MOVE_DOCUMENT' | translate}}
+                              </button>
+                            </ng-container>
+                          </ng-container>
+
+                          <ng-container *ngIf="document.isDownload">
+                            <button class="btn btn-light btn-sm" *hasClaim="'ALL_DOCUMENTS_DOWNLOAD_DOCUMENT'"
+                              mat-menu-item (click)="downloadDocument(document)" type="button">
+                              <mat-icon>download</mat-icon>
+                              {{'DOWNLOAD' | translate}}
+                            </button>
+                          </ng-container>
+                        </mat-menu>
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="name">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'NAME' | translate}} </th>
+                      <td mat-cell *matCellDef="let document">
+                        <ng-container *ngIf="document.mimeType;">
+                          <a class="breadCrumbx_btn"  (click)="onDocumentView(document)">
+                            <i class="fas fa-file-alt"></i>
+                            {{document.name}}<ng-container *ngIf="document.mimeType;">.{{document.mimeType}}</ng-container>
+                          </a>
+                        </ng-container>
+                        <ng-container *ngIf="!document.mimeType;">
+                          <a class="breadCrumbx_btn"  (click)="getbreadCrumb(document)">
+                            <i class="fas fa-folder"></i>
+                            {{document.name}}
+                          </a>
+                        </ng-container>
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="categoryName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'CATEGORY_NAME' | translate}} </th>
+                      <td mat-cell *matCellDef="let document"> {{document.categoryName}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="createdDate">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'CREATED_DATE' | translate}} </th>
+                      <td mat-cell *matCellDef="let document"> {{document?.createdDate | date:"dd/MM/yyyy"}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="expiredDate">
+                      <th mat-header-cell *matHeaderCellDef> {{'EXPIRED_DATE' | translate}} </th>
+                      <td class="text-danger" mat-cell *matCellDef="let document">
+                        {{ getExpiryDate(document.maxRolePermissionEndDate , document.maxUserPermissionEndDate) |
+                        date:"dd/MM/yyyy"}}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="createdBy">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'CREATED_BY' | translate}} </th>
+                      <td mat-cell *matCellDef="let document"> {{document?.createdByName}} </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                  <mat-paginator [length]="documentResource.totalCount" [pageSize]="documentResource.pageSize"
+                    [pageSizeOptions]="[30,40,50]">
+                  </mat-paginator>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="loading-shade" *ngIf="dataSource.loading$ | async">
+  <mat-spinner></mat-spinner>
+</div>

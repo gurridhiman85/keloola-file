@@ -1,0 +1,12 @@
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+  <div class="card">
+    <div class="header">
+      <h2>{{'DOCUMENTS_BY_CATEGORY' | translate}}</h2>
+    </div>
+    <div class="body">
+      <ngx-charts-pie-chart [results]="single" legendTitle="{{'DOCUMENT_CATEGORIES' | translate}}" [legend]="true"
+        [labels]="true">
+      </ngx-charts-pie-chart>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,115 @@
+<div class="d-flex">
+  <h2 mat-dialog-title>{{'SHARE_LINK' | translate}}</h2>
+  <button mat-icon-button class="close-button ms-auto" (click)="closeDialog()">
+    <mat-icon class="close-icon" color="warn">close</mat-icon>
+  </button>
+</div>
+<form [formGroup]="emailForm">
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="body">
+            <div class="row">
+              <div class="col-md-12 p-b-1">
+                <div class="input-group">
+                  <span class="input-group-text" id="toAddress">
+                    {{'LINK' | translate}}
+                  </span>
+                  <input formControlName="link" type="text" class="form-control" placeholder="Link"
+                    aria-label="To" aria-describedby="link" [(ngModel)]="link">
+                </div>
+                <div class="text-danger"
+                  *ngIf="emailForm.get('link').touched && emailForm.get('link').hasError('required')">
+                  {{'LINK_IS_REQUIRED' | translate}}
+                </div>
+              </div>
+              <div class="col-md-12 row">
+                <mat-checkbox (change)="timeBoundChange($event)" color="primary" formControlName="isTimeBound">
+                  {{'SPACIFY_THE_PERIOD' | translate}}</mat-checkbox>
+              </div>
+              <div class="row" *ngIf="emailForm.get('isTimeBound').value">
+                <div class="col-md-6">
+                  <input [min]="minDate" class="form-control" placeholder="{{'CHOOSE_A_START_DATE' | translate}}"
+                    formControlName="startDate" [owlDateTimeTrigger]="date1" [owlDateTime]="date1">
+                  <owl-date-time #date1></owl-date-time>
+                  <div class="row">
+                    <div class="col-md-12 m-t-10 m-b-10">
+                      <mat-error
+                        *ngIf="emailForm.get('startDate').touched && emailForm.get('startDate').hasError('required')">
+                        {{'START_DATE_IS_REQURED' | translate}}
+                      </mat-error>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <input [min]="emailForm.get('startDate').value" class="form-control"
+                    placeholder="{{'CHOOSE_A_END_DATE' | translate}}" formControlName="endDate" [owlDateTimeTrigger]="date2"
+                    [owlDateTime]="date2">
+                  <owl-date-time #date2></owl-date-time>
+                  <div class="row">
+                    <div class="col-md-12 m-t-10 m-b-10">
+                      <mat-error
+                        *ngIf="emailForm.get('startDate').touched && emailForm.get('endDate').hasError('required')">
+                        {{'END_DATE_IS_REQURED' | translate}}
+                      </mat-error>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="loading-shade" *ngIf="isLoading">
+                <mat-spinner></mat-spinner>
+              </div>
+              <div class="row">
+                <div class="col-md-2 mt-3">
+                  <button (click)="copyDocumentLink()" type="submit" class="btn btn-success">
+                    <!-- <i class="fas fa-paper-plane"></i> -->
+                    {{'COPY' | translate}}
+                  </button>
+                </div>
+                <div class="col-md-10 mt-1">
+                  <div class="row">
+                    <div class="col-md-12 mt-1">
+                      <mat-checkbox (change)="changePasswordFeature($event)" color="primary" value="1" formControlName="allowPassword" [(ngModel)]="isAllowedPassword">
+                        {{'ALLOW_ANYONE_WITH_LINK_AND_PASSWORD' | translate}}
+                      </mat-checkbox>
+                    </div>
+                    <div class="col-md-12 mt-1">
+                      <div class="row">
+                        <div class="col-md-7 mt-1">
+                          <div class="row">
+                            <label for="inputEmail3" class="col-sm-3 col-form-label">Allow</label>
+                            <div class="col-sm-9">
+                              <mat-select placeholder="{{'ALLOW' | translate}}" class="form-control" formControlName="selectedAllowedType" [(ngModel)]="selectedAllowValue">
+                                <mat-option [value]="1">View</mat-option>
+                                <mat-option [value]="2">View & Download</mat-option>
+                              </mat-select>
+                              <div class="text-danger"
+                                *ngIf="emailForm.get('selectedAllowedType').touched && emailForm.get('selectedAllowedType').hasError('required')">
+                                {{'ALLOW_IS_REQUIRED' | translate}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-5 mt-1 show-password-main" *ngIf="showPassword">
+                          <input formControlName="password" class="form-control" placeholder="password" [(ngModel)]="oldPassword"
+                          aria-label="To" aria-describedby="password" type="{{ showPasswordString ? 'text' : 'password' }}">
+                            <mat-icon (click)="togglePasswordVisibility()" class="hide-show-password">visibility</mat-icon>
+
+                          <div class="text-danger"
+                            *ngIf="emailForm.get('password').touched && emailForm.get('password').hasError('required')">
+                            {{'PASSWORD_IS_REQUIRED' | translate}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

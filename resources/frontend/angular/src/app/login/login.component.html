@@ -1,0 +1,63 @@
+<div class="container-fluid p-0">
+  <div class="row g-0">
+    <div class="col-lg-8">
+      <div class="auth-bg">
+        <div class="bg-overlay" style='background-color: #fff; background-image: url("assets/images/login-image.png");'></div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="auth-content p-4 d-flex align-items-center min-vh-100">
+        <div class="w-100">
+          <div class="row justify-content-center">
+            <div class="col-lg-9">
+              <div>
+                <div class="text-center">
+                  <div class="m-b-10">
+                    <a class="logo-full"><img src="assets/images/login-logo.png" alt="logo-full"></a>
+                  </div>
+                  <p class="text-muted"> {{'LOGIN_TO_CONTINUE' | translate}}</p>
+                </div>
+                <div class="p-2 mt-5">
+                  <form [formGroup]="loginFormGroup" (submit)="onLoginSubmit()">
+                    <div class="col-sm-12">
+                      <div class="mb-3">
+                        <label class="form-label">{{'EMAIL' | translate}}</label>
+                        <input formControlName="userName" class="form-control" type="text">
+                        <div class="text-danger"
+                          *ngIf="loginFormGroup.get('userName').touched && loginFormGroup.get('userName')?.hasError('required')">
+                          {{'EMAIL_IS_REQUIRED' | translate}}
+                        </div>
+                        <div class="text-danger"
+                          *ngIf="loginFormGroup.get('userName').touched && loginFormGroup.get('userName')?.hasError('email')">
+                          {{'PLEASE_ENTER_VALID_EMAIL' | translate}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-12">
+                      <div class="mb-3">
+                        <label class="form-label">{{'PASSWORD' | translate}}</label>
+                        <input type="password" formControlName="password" class="form-control" type="password">
+                        <div class="text-danger"
+                          *ngIf="loginFormGroup.get('password').touched && loginFormGroup.get('password')?.hasError('required')">
+                          {{'PASSWORD_IS_REQUIRED' | translate}}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="container-login100-form-btn">
+                      <button mat-flat-button color="primary" class="login100-form-btn btn-sm" type="submit">
+                        {{'LOGIN' | translate}}
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="loading-shade" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>

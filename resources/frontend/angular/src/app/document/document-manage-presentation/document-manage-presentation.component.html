@@ -1,0 +1,109 @@
+<section class="content">
+  <div class="content-block">
+    <div class="block-header">
+      <div class="breadcrumb-main">
+        <div class="row">
+          <div class="col-6">
+            <div class="breadcrumb-title">
+              <h2>{{'ADD_DOCUMENT' | translate}}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="body">
+            <form [formGroup]="documentForm">
+              <div class="row">
+                <div class="col-md-12">
+                  <label class="form-label">{{'SELECT_DOCUMENT_TYPE' | translate}}</label>
+                  <mat-select class="form-select" placeholder="{{'SELECT_DOCUMENT_TYPE' | translate}}"
+                     [(ngModel)]="selectedDocumentType" formControlName="documentType">
+                    <mat-option value="FILE">{{'FILE' | translate}}</mat-option>
+                    <mat-option value="FOLDER">{{'FOLDER' | translate}}</mat-option>
+                  </mat-select>
+                </div>
+                <div class="col-md-12">
+                  <label class="form-label">{{'DOCUMENT_UPLOAD' | translate}}</label>
+                  <input class="form-control" #file (change)="upload(file.files)" type="file" multiple *ngIf="selectedDocumentType == 'FILE'">
+                  <input class="form-control"#folderInput type="file" (change)="filesPicked(folderInput.files)" webkitDirectory *ngIf="selectedDocumentType == 'FOLDER'">
+                  <div class="text-danger"
+                    *ngIf="!validDocumentField">
+                    {{'DOCUMENT_IS_REQUIRED' | translate}}
+                  </div>
+                </div>
+                <ng-container *ngIf="selectedDocumentType == 'FILE'">
+                  <div class="col-sm-12" *ngFor="let file of uploadPercentagefiles; let i = index">
+                    <div>
+                      <span>{{ file.name }}</span>
+                      <mat-progress-bar
+                        *ngIf="file.progress !== undefined"
+                        mode="determinate"
+                        [value]="file.progress"
+                      ></mat-progress-bar>
+                      <div class="progress-label" *ngIf="file.progress !== undefined" style="background: #d9cded; text-align: center;">
+                        {{ file.progress }}%
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="selectedDocumentType == 'FOLDER'">
+                  <div class="col-sm-12" *ngIf="uploadAveragePercentage.averageProgress">
+                    <div>
+                      <span>{{uploadAveragePercentage.folder}}</span>
+                      <mat-progress-bar
+                        mode="determinate"
+                        [value]="uploadAveragePercentage.averageProgress"
+                      ></mat-progress-bar>
+                      <div class="progress-label" style="background: #d9cded; text-align: center;">
+                        {{ uploadAveragePercentage.averageProgress }}%
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                <div class="col-sm-12">
+                  <label class="form-label">{{'DESCRIPTION' | translate}}</label>
+                  <textarea formControlName="description" class="form-control">
+                  </textarea>
+                </div>
+
+                <div class="col-sm-6">
+                  <div formArrayName="documentMetaTags"
+                    *ngFor="let documentmetatag of documentMetaTagsArray.controls; let i=index">
+                    <ng-container [formGroupName]="i">
+                      <div class="row">
+                        <div class="col">
+                          <label class="form-label" *ngIf="i===0"> {{'META_TAGS' | translate}} </label>
+                          <div class="input-group m-t-10">
+                            <input (change)="onMetatagChange($event,i)" formControlName="metatag" class="form-control"
+                              type="text">
+                            <button *ngIf="i===0" (click)="onAddAnotherMetaTag()" class="btn btn-outline-success"
+                              type="button"> <i class="fas fa-plus"></i></button>
+                            <button *ngIf="i!==0" (click)="onDeleteMetaTag(i)" class="btn btn-outline-danger"
+                              type="button"><i class="fas fa-trash-alt"></i></button>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-container>
+                  </div>
+                </div>
+                <!-- <div class="col-md-12">
+                  <mat-progress-bar *ngIf="showProgress" mode="determinate" [value]="progress"></mat-progress-bar>
+                </div> -->
+                <div class="m-t-10 col-md-12">
+                  <button *hasClaim="'ALL_DOCUMENTS_CREATE_DOCUMENT'" class="btn btn-success btn-sm m-r-10"
+                    (click)="SaveDocument()" cdkFocusInitial><i class="fas fa-save"></i>
+                    {{'SAVE' | translate}}</button>
+                  <button type="button" class="btn btn-danger btn-sm" [routerLink]="['/documents']"><i
+                      class="fas fa-times-circle"></i> {{'CANCEL' | translate}}</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

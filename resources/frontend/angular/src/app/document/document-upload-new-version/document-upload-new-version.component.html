@@ -1,0 +1,30 @@
+<div class="d-flex">
+  <h2 mat-dialog-title>{{'UPLOAD_NEW_VERSION' | translate}}</h2>
+  <button mat-icon-button class="close-button ms-auto" (click)="closeDialog()">
+    <mat-icon class="close-icon" color="warn">close</mat-icon>
+  </button>
+</div>
+
+<div mat-dialog-content>
+  <form [formGroup]="documentForm">
+    <div class="col-md-12">
+      <label>{{'DOCUMENT_UPLOAD' | translate}}</label>
+      <input class="form-control" #file (change)="upload(file.files)" type="file">
+      <div class="text-danger"
+        *ngIf="documentForm.get('extension').touched  && documentForm.get('extension').hasError('required')">
+        {{'DOCUMENT_TYPE_IS_NOT_ALLOW' | translate}}
+      </div>
+    </div>
+    <div class="col-md-12">
+      <mat-progress-bar *ngIf="showProgress" mode="determinate" [value]="progress"></mat-progress-bar>
+    </div>
+    <div class="m-t-10 col-md-12 m-b-2">
+      <button *hasClaim="'ALL_DOCUMENTS_CREATE_DOCUMENT'" [disabled]="!isFileUpload"
+        class="btn btn-success btn-sm m-r-10" (click)="SaveDocument()" cdkFocusInitial><i
+          class="fas fa-times-circle"></i>
+        {{'SAVE' | translate}}</button>
+      <button type="button" class="btn btn-danger btn-sm" (click)="closeDialog()"><i class="fas fa-times-circle"></i>
+        {{'CANCEL' | translate}}</button>
+    </div>
+  </form>
+</div>

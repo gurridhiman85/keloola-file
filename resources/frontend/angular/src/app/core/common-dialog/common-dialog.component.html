@@ -1,0 +1,13 @@
+<div class="d-flex">
+  <h2 mat-dialog-title>{{primaryMessage}}</h2>
+  <!-- <span mat-dialog-title><mat-icon>folder</mat-icon></span> -->
+  <button mat-icon-button class="close-button ms-auto" (click)="closeDialog()">
+    <mat-icon class="close-icon" color="warn">close</mat-icon>
+  </button>
+</div>
+<div mat-dialog-actions>
+  <button class="btn btn-success btn-sm m-r-10" (click)="clickHandler(true)"><i class="fas fa-check"></i>
+    Yes</button>
+  <button class="btn btn-danger btn-sm" (click)="clickHandler(false)"><i class="fas fa-times-circle"></i>
+    Cancel</button>
+</div>

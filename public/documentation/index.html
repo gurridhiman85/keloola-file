@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document Management System</title>
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link
+        href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+        rel='stylesheet' type='text/css'>
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="assets/plugins/css/bootstrap.min.css">
+    <!-- Plugins CSS -->
+    <link rel="stylesheet" href="assets/plugins/css/prism.css">
+    <link rel="stylesheet" href="assets/plugins/css/style.css">
+    <link rel="stylesheet" href="assets/plugins/css/simple-lightbox.min.css">
+
+    <!-- Theme CSS -->
+    <link id="theme-style" rel="stylesheet" href="assets/css/styles.css">
+
+</head>
+
+<body class="body-purple">
+    <div class="page-wrapper">
+        <!-- ******Header****** -->
+        <header id="header" class="header">
+            <div class="container">
+                <div class="branding">
+                    <h1 class="logo">
+                        <a href="index.html">
+                            <img src="./assets/images/logo.png" alt="">
+                        </a>
+                    </h1>
+                </div><!--//branding-->
+            </div><!--//container-->
+        </header><!--//header-->
+        <div class="doc-wrapper">
+            <div class="container">
+                <div class="doc-body row">
+                    <div class="doc-sidebar col-md-3 col-12 order-0 d-none d-md-flex">
+                        <div id="doc-nav" class="doc-nav">
+                            <nav id="doc-menu" class="nav doc-menu flex-column sticky">
+                                <li class="nav-item">
+                                    <a class="nav-link scrollto" href="#gettingStarted">Getting Started</a>
+                                </li>
+                                <nav class="nav doc-sub-menu nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#requirements">Requirements</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#installation">Installation</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#cron-job">Cron Job</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#troubleshooting">Troubleshooting</a>
+                                    </li>
+                                </nav><!--//nav-->
+                                <li class="nav-item">
+                                    <a class="nav-link scrollto" href="#dashboard">Features</a>
+                                </li>
+                                <nav class="nav doc-sub-menu nav flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#dashboard">Dashboard</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#my-docs">Assigned Documents</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#all-docs">All Documents</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#doc-categories">Document Categories</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#doc-audit">Document Audit Trail</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#roles">Roles</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#users">Users</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#user-roles">User Roles</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#reminders">Reminders</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#login-audit">Login Audit</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#email-smtp">Email SMTP Settings</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#notifications">Notifications</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#user-profile">User Profile</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link scrollto" href="#mulit-lan">Mulitple Language</a>
+                                    </li>
+                                </nav>
+                            </nav><!--//doc-menu-->
+
+                        </div>
+                    </div><!--//doc-sidebar-->
+
+                    <div class="doc-content col-md-9 col-12 order-1">
+                        <div class="content-inner">
+                            <section id="gettingStarted" class="doc-section">
+                                <h2 class="section-title"> Getting Started </h2>
+                                <div class="section-block">
+                                    <p>Document Management System is a self-hosted web-based document management system
+                                        designed to help organizations store, track, modify, and manage documents on a
+                                        centralized platform. Features include document sharing, reminders, user
+                                        management, bulk permissions, document download, document preview, send document
+                                        email, document audit tracking and multilingual.</p>
+                                </div>
+                            </section><!--//doc-section-->
+                            <section id="requirements" class="doc-section">
+                                <h2 class="section-title">Requirements</h2>
+                                <div class="section-block"></div>
+                                <h4>PHP Version</h4>
+                                <div class="section-block">
+                                    Document Management System <strong> minimum required PHP </strong> version:<strong>
+                                        >=
+                                        8.1.</strong>
+                                </div>
+
+                                <h4>MySQL</h4>
+                                <div class="section-block">
+                                    Document Management System requires MySQL version: <strong> >= 5.6.</strong> <br>
+                                    Recommended MySQL version:<strong> >= 5.7.</strong>
+                                </div>
+
+                                <h4>PHP Extensions</h4>
+                                <div class="section-block">
+                                    <ul>
+                                        <li>json</li>
+                                        <li>ctype</li>
+                                        <li>filter</li>
+                                        <li>hash</li>
+                                        <li>mbstring</li>
+                                        <li>openssl</li>
+                                        <li>session</li>
+                                        <li>tokenizer</li>
+                                        <li>fileinfo</li>
+                                        <li>date</li>
+                                        <li>pcre</li>
+                                        <li>spl</li>
+                                        <li>dom</li>
+                                        <li>xml</li>
+                                        <li>phar</li>
+                                        <li>xmlwriter</li>
+                                        <li>curl</li>
+                                    </ul>
+                                </div>
+
+                                <h4>Recommended PHP Extensions</h4>
+                                <div class="section-block">
+                                    The extensions listed below are not required during installation, however, if you
+                                    want to use specific features after installation, you will need to enable them, for
+                                    example the "zip" extension gives you the ability to perform 1 click update and
+                                    apply patches.
+                                    <br>
+
+                                </div>
+                                <ul>
+                                    <li>zip</li>
+                                    <div>for performing auto update and applying patches.</div>
+                                </ul>
+                                <h4>PHP Memory Limit</h4>
+                                <div class="section-block">
+                                    Document Management System requires at least <strong> 128 MB</strong> PHP memory
+                                    limit.
+                                </div>
+
+                                <h4>Browser Support</h4>
+                                <div class="section-block">
+                                    Document Management System supports the <strong> most recent versions</strong> of
+                                    the following
+                                    browsers:
+                                </div>
+                                <ul>
+                                    <li>Google Chrome</li>
+                                    <li>Apple Safari</li>
+                                    <li>Microsoft Edge</li>
+                                    <li>Mozilla Firefox</li>
+                                </ul>
+
+                                <h4>Cron Job</h4>
+                                <div class="section-block">
+                                    cron is a Linux utility that schedules a command or script on your server to run
+                                    automatically at a specified time and date. A cron job is the scheduled task itself.
+                                    Cron jobs can be very useful to automate repetitive tasks.
+                                </div>
+                                <div class="section-block">
+                                    Your web server must support configuring cron jobs, in order, Document Management
+                                    System features
+                                    to work properly, after installation, please make sure to check the cron job guide
+                                    to get familiar on how to configure the cron job required by the application.
+                                </div>
+                                <div class="section-block">
+                                    See the cron job setup guide for more info.
+                                </div>
+
+                                <h4>Domain Name</h4>
+                                <div class="section-block">
+                                    Your server where you will be installing Document Management System must have domain
+                                    name, you
+                                    can't use the server IP-address to access your Document Management System
+                                    installation, it must be
+                                    accessed via the domain name.
+                                </div>
+                            </section><!--//doc-section-->
+                            <section id="installation" class="doc-section">
+                                <h2 class="section-title">Installation</h2>
+                                <div class="section-block">
+                                    <p>Document Management System has its own web installer that will help you to
+                                        perform the
+                                        installation
+                                        in a few steps without touching any code or modifying any files.
+                                    </p>
+                                </div>
+                                <div class="section-block">
+                                    <p>
+                                        As Document Management System is using Laravel, and Laravel requires the root of
+                                        Document Management System to
+                                        be
+                                        pointed at the /public path, in this case,<strong> the easiest way to install
+                                            Document Management System is
+                                            on a subdomain </strong> that points to subdomain folder
+                                        <code>/public</code>
+                                        path.
+                                    </p>
+                                </div>
+                                <div class="alert alert-warning">
+                                    Make sure that you checked the requirements page before installation.
+                                </div>
+                                <div class="section-block">
+                                    <p> Below, you can find installation video for cPanel, watch the
+                                        video
+                                        tutorials to get familiar with the installation steps and learn how easy is to
+                                        install
+                                        Document Management System.</p>
+                                </div>
+                                <div class="embed-container pb-4">
+                                    <iframe width="560" height="315" src="https://www.youtube.com/embed/zuCuvlBdOvA"
+                                        title="YouTube video player" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen></iframe>
+                                </div>
+                                <h4>Create Subdomain</h4>
+                                <div class="section-block">
+                                    <p>You will need to create a subdomain for your installation, for example,</p>
+                                </div>
+                                <strong><a href="https://docs.yourdomain.com">https://docs.yourdomain.com</a></strong>
+                                <div class="section-block">
+                                    <p>
+                                    <ul>
+                                        <li>Login to cPanel.</li>
+                                        <li>Find the Subdomains section.</li>
+                                        <li>
+                                            Create a subdomain, for example, docs.yourdomain.com and <strong> make sure
+                                                to set the
+                                                Document Root option to path <code> public.</code></strong>
+                                        </li>
+                                    </ul>
+                                    </p>
+                                </div>
+                                <div class="section-block mb-3">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/subdomain-public.png">
+                                                    <img class="img-fluid" src="./assets/images/subdomain-public.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p>
+                                <div class="fixed inset-0 z-50 w-screen h-screen px-4 py-12 flex flex-col bg-gray-800 bg-opacity-75 sm:px-12 place-items-center --overlay"
+                                    style="display: none;"><!----><button
+                                        class="text-white hover:text-gray-200 absolute top-2 right-2 focus:outline-none"
+                                        aria-label="Close"><svg class="w-8 h-8 mr-1" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg></button></div>
+                                </p>
+
+                                <h4>Upload Files</h4>
+                                <div class="section-block">
+                                    <div class="alert alert-danger">
+                                        If you did not created subdomain as explained in the previous step and you want
+                                        to install Document Management System on a subfolder it won't work, you will
+                                        need to consult
+                                        with your hosting provider create a virtual host pointing the the root path to
+                                        <code>subfolder</code>
+                                    </div>
+                                </div>
+                                <div class="section-block">
+                                    <p>In order to proceed with the web installer, you will first need to download the
+                                        <!-- <a href="">  -->
+                                        release archive files
+                                        <!-- </a>  -->
+                                        from your Document Management System
+                                        account releases
+                                        page or your Envato
+                                        account
+                                        <!-- <a href="">  -->
+                                        downloads
+                                        <!-- </a> -->
+                                        page.
+                                    </p>
+                                </div>
+                                <div class="section-block">
+                                    <p>
+                                        For the sake of this example, assuming that you created subdomain with name
+                                        "docmgt" and the path is <code> public_html/docmgt/</code> <strong> upload the
+                                            files
+                                            to the <code> public_html/docmgt </code></strong>
+                                        folder.
+                                    </p>
+                                </div>
+
+                                <h4>Create Database</h4>
+                                <div class="section-block">
+                                    <div class="alert alert-primary">
+                                        For additional information on how to create a database, see the installation
+                                        video above.
+                                    </div>
+                                </div>
+                                <div class="section-block">
+                                    <p>Create a brand new database that will be used only for the Document Management
+                                        System
+                                        installation.
+                                    </p>
+                                </div>
+                                <div class="section-block">
+                                    <ol>
+                                        <li><strong> Login to cPanel</strong> by accessing www.yourdomain.com/<strong>
+                                                cpanel.</strong></li>
+                                        <li>
+                                            Look for the Databases section, then click <strong> MySQL
+                                                Databases,</strong> note that this
+                                            step may vary and in some hosting providers can be different.
+                                        </li>
+                                        <li>
+                                            Click <strong>Create Database,</strong> the new database will appear in the
+                                            Current Databases
+                                            section.
+                                        </li>
+                                        <li>
+                                            <strong> Create user</strong> and set up the user password. (write down the
+                                            username and the
+                                            password because needs to be added later in the installer)
+                                        </li>
+                                        <li>
+                                            <strong> Add the user to the database</strong> by selecting the database and
+                                            the username,
+                                            make sure you have checked <strong> All privileges </strong> when adding the
+                                            user to the
+                                            database.
+                                        </li>
+                                    </ol>
+                                </div>
+                                <h4>Perform Install</h4>
+                                <div class="section-block">
+                                    <p>
+                                        Assuming that you have created the subdomain, database and uploaded the files as
+                                        explained in the previous steps, follow the steps below to begin with the
+                                        installation process.
+                                    </p>
+                                </div>
+                                <div class="section-block">
+                                    <div class="alert alert-danger">
+                                        wait for couple of minute to update your sub domain if you are not able to
+                                        access <strong>docs.yourdomain.com/install</strong> URL.
+                                    </div>
+                                </div>
+                                <div class="section-block">
+                                    <ul>
+                                        <li>
+                                            In your browser navigate to e.q. <strong> docs.yourdomain.com/install –
+                                            </strong> Make sure to
+                                            update yourdomain.com according to your domain.
+                                        </li>
+                                        <li>
+                                            If all server requirements passed click <strong> Next </strong> otherwise
+                                            consult with your
+                                            hosting provider to fix/enable them.
+                                        </li>
+                                        <li>
+                                            If all permissions are passed click <strong> Next </strong> to set up the
+                                            application data,
+                                            otherwise you need to set <strong> 755 permissions</strong>for the given
+                                            folders, in cases
+                                            where you are managing the server.
+                                        </li>
+                                    </ul>
+                                </div>
+                                <h4>General Config</h4>
+                                <div class="section-block">
+                                    <ul>
+                                        <li><strong>App Url </strong> </li>
+                                        <p> Document Management System will automatically try to guess the URL where the
+                                            application
+                                            will be installed, in our case now from, this example, the URL is
+                                            <a href=""> https://docs.yourdomain.com/</a> ,if the URL is wrong, please
+                                            adjust it
+                                            accordingly.
+                                        </p>
+
+                                        <li><strong>Application Name </strong> </li>
+                                        <p>You can leave it as default or you can write your own name, for example,
+                                            "Document Management"</p>
+                                    </ul>
+                                </div>
+                                <h4>Configure Database</h4>
+                                <h5>Add the database config in the installer</h5>
+                                <div class="section-block">
+                                    <ul>
+                                        <li><strong>Hostname </strong> </li>
+                                        <p> Enter database hostname, in most cases, the default hostname is <strong>
+                                                localhost,</strong>
+                                            however, if it's different in your case, make sure to set the correct
+                                            hostname.
+                                        </p>
+                                        <li><strong>Port </strong> </li>
+                                        <p>In most cases, this value will be 3306 as this port is MySQL default port, if
+                                            you are not familiar with this option for your server, leave it as it is and
+                                            continue to the next field, where you will need to configure the database
+                                            name and user you created in the previous step.</p>
+                                        <li><strong>Database Name </strong> </li>
+                                        <p>Enter the database name.</p>
+                                        <li><strong>Database User </strong> </li>
+                                        <p>Enter the database username.</p>
+                                        <li><strong>Database Password </strong> </li>
+                                        <p>Enter the database user password, for local installations and database users
+                                            without password, leave it empty.</p>
+                                    </ul>
+                                    <ol>
+                                        <li>
+                                            Click <strong> Test Connection & Configure </strong> and if the database
+                                            connection is
+                                            successful you will be passed to the latest step otherwise please re-check
+                                            your credentials and hostname.
+                                        </li>
+                                        <li>On the next page, configure administrator user and perform the installation.
+                                        </li>
+                                    </ol>
+                                </div>
+
+                                <h4>Configure administrator User</h4>
+                                <h5>in order to login into system create the administrator user.</h5>
+                                <div class="section-block">
+                                    <ul>
+                                        <li><strong>First Name </strong> </li>
+                                        <p> Enter the first name
+                                        </p>
+                                        <li><strong>Last Name </strong> </li>
+                                        <p>Enter the last name.</p>
+                                        <li><strong>Email Address </strong> </li>
+                                        <p>Enter the email address.</p>
+                                        <li><strong>Password </strong> </li>
+                                        <p>Enter the user password.</p>
+                                    </ul>
+                                    <ol>
+                                        <li>
+                                            Click <strong> Install </strong> and the admin user will be created.
+                                        </li>
+                                    </ol>
+                                </div>
+
+                                <h4>Installation Finished Page</h4>
+                                <div class="section-block">
+                                    <p>
+                                        After you finish all the installation steps you will be presented with a
+                                        installation successful screen where there will be information on
+                                        <a href="#cron-job">how to configure cron job</a> as well the guessed <strong>
+                                            command </strong> and the <strong> path </strong>for the cron job.
+                                    </p>
+                                </div>
+                                <div class="section-block">
+                                    <p>
+                                        Don't forget to <strong> copy the command/path </strong> so you can
+                                        <strong>configure a cron job</strong> as
+                                        explained <a href="#cron-job">here.</a>
+                                    </p>
+                                </div>
+
+                                <div class="section-block">
+                                    <div class="alert alert-primary">
+                                        The <strong> installation success page will be available for 1 hour after
+                                            installation,</strong>
+                                        after 1 hour, when you visit the same URL, a 404 error will be shown.
+                                    </div>
+                                </div>
+                                <div class="section-block mb-3">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/installation-success.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/installation-success.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4>Nginx Config</h4>
+                                <div class="section-block">
+                                    <p>
+                                        If you are managing the server and you are already familiar with Laravel,
+                                        probably you will know that for Nginx you will need to create separate
+                                        configuration file so Document Management System can be served.
+                                    </p>
+                                </div>
+                                <div class="section-block">
+                                    <p>
+                                        The examples below are for installation on the root domain, but feel free to
+                                        adjust the paths for the subdomain if you want to perform an installation on a
+                                        subdomain.
+                                    </p>
+                                </div>
+                                <pre class="language-php"
+                                    tabindex="0"><code class="language-php">server <span class="token punctuation">{</span>     listen <span class="token number">80</span><span class="token punctuation">;</span>     server_name example<span class="token operator">.</span>com<span class="token punctuation">;</span>     root <span class="token operator">/</span>example<span class="token operator">.</span>com<span class="token operator">/</span><span class="token keyword">public</span><span class="token punctuation">;</span>      add_header <span class="token constant">X</span><span class="token operator">-</span>Frame<span class="token operator">-</span>Options <span class="token string double-quoted-string">"SAMEORIGIN"</span><span class="token punctuation">;</span>     add_header <span class="token constant">X</span><span class="token operator">-</span><span class="token constant">XSS</span><span class="token operator">-</span>Protection <span class="token string double-quoted-string">"1; mode=block"</span><span class="token punctuation">;</span>     add_header <span class="token constant">X</span><span class="token operator">-</span>Content<span class="token operator">-</span>Type<span class="token operator">-</span>Options <span class="token string double-quoted-string">"nosniff"</span><span class="token punctuation">;</span>      index index<span class="token operator">.</span>html index<span class="token operator">.</span>htm index<span class="token operator">.</span>php<span class="token punctuation">;</span>      charset utf<span class="token operator">-</span><span class="token number">8</span><span class="token punctuation">;</span>      location <span class="token operator">/</span> <span class="token punctuation">{</span>         <span class="token class-name type-declaration">try_files</span> <span class="token variable">$uri</span> <span class="token variable">$uri</span><span class="token operator">/</span> <span class="token operator">/</span>index<span class="token operator">.</span>php<span class="token operator">?</span><span class="token variable">$query_string</span><span class="token punctuation">;</span>     <span class="token punctuation">}</span>      location <span class="token operator">=</span> <span class="token operator">/</span>favicon<span class="token operator">.</span>ico <span class="token punctuation">{</span> access_log off<span class="token punctuation">;</span> log_not_found off<span class="token punctuation">;</span> <span class="token punctuation">}</span>     location <span class="token operator">=</span> <span class="token operator">/</span>robots<span class="token operator">.</span>txt  <span class="token punctuation">{</span> access_log off<span class="token punctuation">;</span> log_not_found off<span class="token punctuation">;</span> <span class="token punctuation">}</span>      error_page <span class="token number">404</span> <span class="token operator">/</span>index<span class="token operator">.</span>php<span class="token punctuation">;</span>      location <span class="token operator">~</span> \<span class="token operator">.</span><span class="token class-name type-declaration">php</span>$ <span class="token punctuation">{</span>         fastcgi_pass unix<span class="token punctuation">:</span><span class="token operator">/</span><span class="token keyword">var</span><span class="token operator">/</span>run<span class="token operator">/</span>php<span class="token operator">/</span>php8<span class="token operator">.</span><span class="token number">1</span><span class="token operator">-</span>fpm<span class="token operator">.</span>sock<span class="token punctuation">;</span>         fastcgi_index index<span class="token operator">.</span>php<span class="token punctuation">;</span>         fastcgi_param <span class="token class-name type-declaration">SCRIPT_FILENAME</span> <span class="token variable">$realpath_root</span><span class="token variable">$fastcgi_script_name</span><span class="token punctuation">;</span>         <span class="token keyword">include</span> fastcgi_params<span class="token punctuation">;</span>     <span class="token punctuation">}</span>      location <span class="token operator">~</span> <span class="token operator">/</span>\<span class="token operator">.</span><span class="token punctuation">(</span><span class="token operator">?</span><span class="token operator">!</span>well<span class="token operator">-</span>known<span class="token punctuation">)</span><span class="token operator">.</span><span class="token operator">*</span> <span class="token punctuation">{</span>         deny all<span class="token punctuation">;</span>     <span class="token punctuation">}</span> <span class="token punctuation">}</span></code></pre>
+
+                                <h4 class="pt-4">Permissions, User And Group</h4>
+
+                                <div class="section-block">
+                                    <p>
+                                        If you are managing the server, you will need to make sure that the proper
+                                        permissions are applied to all files and folders and also the files and folders
+                                        belong to the user and group responsible for managing the web server, in most
+                                        cases is <code> www-data</code> .
+                                    </p>
+
+                                    <p>
+                                        Keep in mind that <strong> you won't need to apply the commands below if your
+                                            server is
+                                            managed by your server provider,</strong> for example, shared hosting as the
+                                        permissions
+                                        and the group will be already configured for you.
+                                    </p>
+                                </div>
+                                <h4>Change all the directories to 755 (drwxr-xr-x):</h4>
+                                <div class="section-block">
+                                    <p>
+                                        <code>find /var/www/example.com -type d -exec chmod 755 {} \;</code>
+                                    </p>
+                                </div>
+
+                                <h4>Change all the files to 644 (-rw-r--r--):</h4>
+                                <div class="section-block">
+                                    <p>
+                                        <code>find /var/www/example.com -type f -exec chmod 644 {} \;</code>
+                                    </p>
+                                </div>
+
+                                <h4>Change the files and folders user and group</h4>
+                                <div class="section-block">
+                                    <p>
+                                        <code>sudo chown www-data:www-data -R /var/www/example.com</code>
+                                    </p>
+                                </div>
+                                <div class="alert alert-primary">
+                                    Don't forget to adjust the values in the <strong> example codes </strong>according
+                                    to your setup.
+                                </div>
+                            </section>
+                            <section id="cron-job" class="doc-section">
+                                <h2 class="section-title">Cron Job</h2>
+                                <div class="section-block">
+                                    <p>cron is a Linux utility that schedules a command or script on your server to run
+                                        automatically at a specified time and date. A cron job is the scheduled task
+                                        itself. Cron jobs can be very useful to automate repetitive tasks.
+                                    </p>
+
+                                    <p>Every modern application with decent features must have cron job configured in
+                                        order tasks to be executed in the background.
+                                    </p>
+
+                                    <p>
+                                        Document Management System requires a properly configured cron job, follow the
+                                        steps explained
+                                        below to configure cron job for your installation.
+                                    </p>
+                                </div>
+                                <div class="alert alert-warning">
+                                    For the examples below, make sure to replace <code>/path/to/docmgt/</code> with the
+                                    path to your
+                                    installation. <br> <br>
+                                    On some shared hosting you may need to specify the full path to the PHP executable
+                                    (for example, <code> /usr/local/bin/php81</code> or
+                                    <code> /opt/alt/php81/usr/bin/php</code> instead of <code> php</code>)
+                                </div>
+                                <h4>Setup Cron Job Via cPanel</h4>
+                                <div class="section-block">
+                                    <p>
+                                        Login to cPanel and search for "Cron Job", and add the following cron job
+                                        command as shown below:
+                                    </p>
+                                </div>
+                                <div class="section-block">
+                                    <p>
+                                        <code>
+                                    php /path/to/docmgt/artisan schedule:run >> /dev/null 2>&1
+                                </code>
+                                    </p>
+                                </div>
+                                <div class="section-block mb-3">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets//images/cpanel-cron-job.png">
+                                                    <img class="img-fluid" src="./assets//images/cpanel-cron-job.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4>Setup Cron Job Via SSH</h4>
+                                <div class="section-block">
+                                    <p>
+                                        If you are managing the server via SSH, you will need to configure the cron job
+                                        from the command line, the cron job must be configured for the user responsible
+                                        for managing the web server, in most cases, it's the www-data user.
+                                    </p>
+                                </div>
+
+                                <div class="section-block">
+                                    <p>
+                                        <code>
+                                            sudo crontab -u www-data -e  * * * * * php /path/to/docmgt/artisan schedule:run >> /dev/null 2>&1
+                                        </code>
+                                    </p>
+                                </div>
+
+                                <h4>Setup Cron Job Via Plesk</h4>
+                                <div class="section-block">
+                                    <ul>
+                                        <li>
+                                            Click <strong> Websites & Domains</strong>.
+                                        </li>
+                                        <li>
+                                            Click the domain/subdomain you installed Document Management System.
+                                        </li>
+                                        <li>
+                                            Click <strong> Scheduled Tasks</strong>.
+                                        </li>
+                                        <li>
+                                            Click <strong> Add Task</strong>.
+                                        </li>
+                                        <li>
+                                            Choose <strong> Run a PHP script</strong>.
+                                        </li>
+                                        <li>
+                                            In the script path enter your Document Management System installation path
+                                            and append
+                                            <strong> artisan</strong>, for example:
+                                            /path/to/docmgt/<strong>artisan</strong>.
+                                        </li>
+                                        <li>
+                                            In the <strong> with arguments</strong> field enter: <strong>
+                                                schedule:run</strong>
+                                        </li>
+                                        <li>
+                                            Use PHP version: 8.1
+                                        </li>
+                                        <li>
+                                            Cron Style: * * * * *
+
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets//images/plesk-cron-job.png">
+                                                    <img class="img-fluid" src="./assets//images/plesk-cron-job.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4>Common Cron Job Commands</h4>
+                                <div class="section-block">
+                                    <p>
+                                        Below you can find common cron job commands that are confirmed to work for
+                                        commonly used hosting providers, in most cases the commands are confirmed by our
+                                        customers and if your hosting provider is listed below, they should work in your
+                                        environment as well.
+                                    </p>
+                                </div>
+                                <div class="alert alert-primary">
+                                    Are you hosting Document Management System on a commonly used hosting provider and
+                                    you can confirm
+                                    that the cron job command works perfectly fine? Send us the command via our support
+                                    area so we can add it here and other customers can benefit from it.
+                                </div>
+                                <h4>SiteGround</h4>
+                                <code>
+                                    /usr/local/php81/bin/php-cli /path/to/docmgt/artisan schedule:run >> /dev/null 2>&1
+                                </code>
+                            </section>
+                            <section id="troubleshooting" class="doc-section">
+                                <h2 class="section-title">Troubleshoot Document Management System</h2>
+                                <div class="section-block">
+                                    <p>
+                                        If you are encountering some issues, first the best is to check the server and
+                                        application logs. e.q <code> /var/log/apache2/error.log</code> and
+                                        <code> storage/logs/laravel.log</code>
+                                    </p>
+                                </div>
+
+                                <div class="section-block">
+                                    <p>
+                                        Also, it's recommended while debugging an issue, to set debug mode in the .env
+                                        file, <code> APP_DEBUG=true</code>.
+                                    </p>
+                                </div>
+                            </section>
+                            <section id="dashboard" class="doc-section">
+                                <h2 class="section-title">Dashboard</h2>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/dashboard.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/dashboard.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="section-block">
+                                    <ul>
+                                        <li>
+                                            <p>
+                                                It shows the graphical representation of data.
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                Document By category Graph shows the no. of document by category.
+                                            </p>
+                                        </li>
+                                        <li>
+                                            <p>
+                                                Calender show the List of Avaialble reminder in the systems.
+                                            </p>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </section>
+                            <section id="my-docs" class="doc-section">
+                                <h2 class="section-title">Assigned Documents</h2>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/assign-docs.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/assign-docs.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        It shows the Documents that has been assign to you. all the member has this page
+                                        access.
+                                        you can search document by name/description, meta tags or category.
+                                    </p>
+                                    <p>
+                                        From the List of Assigned Documents you can view the document, add comment on
+                                        document which will be seen to other assignee.
+                                    </p>
+                                    <p>
+                                        you can also add the reminder on specific document which will be visible to you
+                                        only.
+                                    </p>
+                                    <p>From the Version history tab you can also see the previous versions of the
+                                        document.</p>
+                                    <p>You can also add your personal document if you have permission to add the
+                                        document and which will be visible inside the All the Documents.</p>
+                                </div>
+                            </section>
+
+                            <section id="all-docs" class="doc-section">
+                                <h2 class="section-title">All Documents</h2>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/all-docs.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/all-docs.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        All Documents Screen is Kind of master of the documents and admin only can have
+                                        permission to this screen.
+                                    </p>
+                                </div>
+
+                                <h4>Add Document</h4>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/add-docs.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/add-docs.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        Upload new Document with name, description, category and meta tags.
+                                    </p>
+                                </div>
+
+                                <h4>Edit Document</h4>
+                                <div class="section-block">
+                                    <p>
+                                        Update the Document name, category, description or meta tags. edit document
+                                        doesn't mean to edit the content of the document.
+                                    </p>
+                                </div>
+
+                                <h4>Share Document</h4>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/share-docs.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/share-docs.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        You can share the Document with Users or roles(group of users). you can also
+                                        specify the the time period and option to allow the download or not while
+                                        sharing it.
+                                    </p>
+                                    <p>In the listing screen you can see the List of Users/Roles has Permission to the
+                                        specific document.</p>
+                                </div>
+
+                                <h4>Document Preview</h4>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/preview-docs.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/preview-docs.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        Preview Uploaded files including audio, video, image, text, PDF and all the
+                                        Microsoft Office Documents.
+                                    </p>
+                                </div>
+
+                                <h4>Upload New Version File</h4>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/upload-new-version.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/upload-new-version.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        Upload the new version of the document which will be visible to all the user who
+                                        have permission to access it.
+                                    </p>
+                                </div>
+
+                                <h4>Verion History</h4>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/version-history.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/version-history.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        from the version history you can see the uploaded version of the document and
+                                        the current version with details like who have uploaded and when.
+                                    </p>
+                                    <p>
+                                        you can also restore the previous version of the document to the current
+                                        version.
+                                    </p>
+                                </div>
+
+                                <h4>Comments</h4>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/comments.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/comments.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        User can add the comment and view the comments added by other User on the
+                                        document.
+                                    </p>
+                                </div>
+
+                                <h4>Reminder</h4>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/doc-reminder.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/doc-reminder.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        User can add the reminder the the specific document and add the user into it.
+                                    </p>
+                                </div>
+
+                                <h4>Send Email</h4>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/send-email.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/send-email.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        User can send the document in Email as attachment. to send the email it is
+                                        required to have setting up the default SMTP configuration.
+                                    </p>
+                                </div>
+
+                                <h4>Delete Document</h4>
+                                <div class="section-block">
+                                    <p>
+                                        Admin user(who has permission to see All Documents) can delete the document.
+                                        Once Document has been deleted from here it wan't be avaiable to any other user.
+                                    </p>
+                                </div>
+                            </section>
+                            <section id="doc-categories" class="doc-section">
+                                <h2 class="section-title">Document Categories</h2>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/doc-categories.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/doc-categories.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        You can Manage Document Categories and Child/Sub Categories from here.
+                                    </p>
+                                </div>
+                            </section>
+                            <section id="doc-audit" class="doc-section">
+                                <h2 class="section-title">Document Audit Trail</h2>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/doc-audit.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/doc-audit.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        From this screen user can see who perform which action when on document.
+                                    </p>
+                                    <p> It shows the action on document like Create(Created), View(Read), Permission
+                                        Changes(Add_Permission,Remove_Permission)
+                                        Download, etc..</p>
+                                </div>
+                            </section>
+                            <section id="roles" class="doc-section">
+                                <h2 class="section-title">Roles</h2>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/roles.png">
+                                                    <img class="img-fluid" src="./assets/images/screen-shots/roles.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        The Roles define the list of permissions in the document management system.
+                                    </p>
+                                    <p>
+                                        you can create the custom role with specific list of permission.
+                                    </p>
+                                </div>
+                            </section>
+                            <section id="users" class="doc-section">
+                                <h2 class="section-title">Users</h2>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/users.png">
+                                                    <img class="img-fluid" src="./assets/images/screen-shots/users.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        You can create an unlimited number of users and apply the appropriate roles.
+                                    </p>
+                                </div>
+                                <h4>User Permission</h4>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/user-permission.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/user-permission.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        you can also set individual list of permission to specific user.
+                                    </p>
+                                </div>
+                                <h4>Reset Passowrd</h4>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/reset-password.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/reset-password.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        there is also option to reset the password of the user from the listing screen.
+                                    </p>
+                                </div>
+                            </section>
+                            <section id="user-roles" class="doc-section">
+                                <h2 class="section-title">Role User</h2>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/user-roles.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/user-roles.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        It is the mapping of the User and Roles. you add mulitple users into role from
+                                        this screen.
+                                    </p>
+                                    <p>
+                                        In order to add the user to role, please drag it from All Users to Role Users.
+                                    </p>
+                                </div>
+                            </section>
+                            <section id="reminders" class="doc-section">
+                                <h2 class="section-title">Reminder</h2>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/reminder.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/reminder.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        You can set recurring Daily, Weekly, Monthly, Quarterly, Half Yearly, Yearly or
+                                        Specific Date reminder in the system or on the document to get notification or
+                                        email.
+                                    </p>
+                                    <p>
+                                        Please not that inorder to get notification cron job need to run on the server.
+                                        to get email of the reminder it is required to setup default SMTP correctly.
+                                    </p>
+                                </div>
+                            </section>
+                            <section id="login-audit" class="doc-section">
+                                <h2 class="section-title">Login Audit</h2>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/login-audit.png">
+                                                    <img class="img-fluid"
+                                                        src="./assets/images/screen-shots/login-audit.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        You can also review the User login activities from this screen.
+                                    </p>
+                                </div>
+                            </section>
+                            <section id="email-smtp" class="doc-section">
+                                <h2 class="section-title">Email SMTP Settings</h2>
+                                <div class="section-block">
+                                    <div class="row simplelightbox-gallery-1">
+                                        <div class="col-sm-12">
+                                            <div class="screenshot-holder">
+                                                <a href="./assets/images/screen-shots/smtp.png">
+                                                    <img class="img-fluid" src="./assets/images/screen-shots/smtp.png"
+                                                        alt="screenshot"></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p>
+                                        In order to send Email from the system, it is required to set default SMTP
+                                        settings and from this screen you can setup the Email SMTP setting.
+                                    </p>
+                                </div>
+                            </section>
+                            <section id="notifications" class="doc-section">
+                                <h2 class="section-title">Notifications</h2>
+                                <div class="section-block">
+                                    <p>
+                                        you can see the new notification list and clicking on View All you can see all
+                                        the list of notifications which the document details.
+                                    </p>
+                                </div>
+                            </section>
+                            <section id="user-profile" class="doc-section">
+                                <h2 class="section-title">User Profile</h2>
+                                <div class="section-block">
+                                    <p>
+                                        From the My Profile from top right you can change your profile and system
+                                        password.
+                                    </p>
+                                </div>
+                            </section>
+                            <section id="mulit-lan" class="doc-section">
+                                <h2 class="section-title">Mulitple Language</h2>
+                                <div class="section-block">
+                                    <p>
+                                        As Document Management Sytem supports muliti-language, from the Top Right there
+                                        is also option to change the application language.
+                                    </p>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/plugins/js/bootstrap.min.js"></script>
+    <script src="assets/plugins/js/prism.js"></script>
+    <script src="assets/plugins/js/stickyfill.min.js"></script>
+    <script src="assets/plugins/js/gumshoe.polyfills.min.js"></script>
+    <script src="assets/plugins/js/simple-lightbox.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

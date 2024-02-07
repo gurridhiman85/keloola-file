@@ -1,0 +1,90 @@
+<section class="content">
+    <div class="content-block">
+        <div class="block-header">
+            <div class="breadcrumb-main">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="breadcrumb-title">
+                            <h2>{{'LOGIN_AUDIT_LOGS' | translate}}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="body">
+                        <div class="row margin-2">
+                            <div class="col-md-6">
+                                <label class="form-label">{{'SEARCH_BY_USERNAME' | translate}}</label>
+                                <input class="form-control" placeholder="{{'SEARCH_BY_USERNAME' | translate}}" #input>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="table-responsive">
+                                    <table mat-table [dataSource]="dataSource" class="w-100" matSort
+                                        matSortActive="loginTime" matSortDirection="desc">
+                                        <ng-container matColumnDef="loginTime">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                {{'DATE_TIME' | translate}}
+                                            </th>
+                                            <td mat-cell *matCellDef="let audit"> {{audit?.loginTime | date:"dd/MM/yyyy
+                                                hh:mm:ss"}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="userName">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                {{'EMAIL' | translate}}
+                                            </th>
+                                            <td mat-cell *matCellDef="let audit"> {{audit.userName}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="status">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                                {{'STATUS' | translate}}
+                                            </th>
+                                            <td mat-cell *matCellDef="let audit">
+                                                <span *ngIf="audit?.status=='Success'"
+                                                    class="badge bg-success">{{audit?.status}}</span>
+                                                <span *ngIf="audit?.status=='Error'"
+                                                    class="badge bg-warning">{{audit?.status}}</span>
+                                            </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="remoteIP">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'IP_ADDRESS' |
+                                                translate}} </th>
+                                            <td mat-cell *matCellDef="let audit"> {{audit.remoteIP}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="latitude">
+                                            <th mat-header-cell *matHeaderCellDef>{{'LATITUDE' | translate}} </th>
+                                            <td mat-cell *matCellDef="let audit"> {{audit.latitude}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="longitude">
+                                            <th mat-header-cell *matHeaderCellDef> {{'LONGITUDE' | translate}} </th>
+                                            <td mat-cell *matCellDef="let audit"> {{audit.longitude}} </td>
+                                        </ng-container>
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                    </table>
+                                    <ng-container *ngIf="dataSource.count === 0">
+                                        <div class="col-sm-12 m-t-15">
+                                            <strong>{{'NO_DATA_FOUND' | translate}}</strong>
+                                        </div>
+                                    </ng-container>
+                                    <mat-paginator [length]="loginAuditResource.totalCount"
+                                        [pageSize]="loginAuditResource.pageSize"
+                                        [pageSizeOptions]="[10, 20, 30]"></mat-paginator>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="loading-shade" *ngIf="dataSource.loading$ | async">
+    <mat-spinner></mat-spinner>
+</div>

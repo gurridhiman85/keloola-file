@@ -1,0 +1,2 @@
+<app-category-list-presentation [categories]="categories$ | async" (addEditCategoryHandler)="manageCategory()"
+  (deleteCategoryHandler)="deleteCategory($event)"></app-category-list-presentation>

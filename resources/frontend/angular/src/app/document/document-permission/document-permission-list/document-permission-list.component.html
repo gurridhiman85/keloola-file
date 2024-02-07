@@ -1,0 +1,133 @@
+<div class="d-flex">
+  <h2 mat-dialog-title>{{'SHARE_DOCUMENT' | translate}}</h2>
+  <button mat-icon-button class="close-button ms-auto" (click)="closeDialog()">
+    <mat-icon class="close-icon" color="warn">close</mat-icon>
+  </button>
+</div>
+
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col-md-12 row pl-0" *ngIf="document">
+      <div class="col-md-4">
+        <p><b>{{'DOCUMENT_NAME' | translate}}:</b> {{document.name}}</p>
+      </div>
+      <div *ngIf="document.description" class="col-md-8">
+        <p><b>{{'DESCRIPTION' | translate}}:</b> {{document.description}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <button (click)="addDocumentUserPermission()" class="btn btn-success btn-sm m-r-10 m-t-10" type="button">
+        <i class="fas fa-plus"></i>
+        {{'ASSIGN_USERS' | translate}}
+      </button>
+      <button (click)="addDocumentRolePermission()" class="btn btn-success btn-sm m-r-10 m-t-10 ml-3" type="button">
+        <i class="fas fa-plus"></i>
+        {{'ASSIGN_ROLES' | translate}}
+      </button>
+      <button (click)="sendDocumentViaLink()" class="btn btn-success btn-sm m-r-10 m-t-10 ml-3" type="button">
+        <i class="fas fa-share-square"></i>
+        {{'SHARE_DOCUMENT' | translate}}
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col m-t-10">
+      <mat-label>{{'FILTER' | translate}}</mat-label>
+      <input class="form-control" (keyup)="applyPermissionFilter($event)" placeholder="Ex. Admin" #input1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="table-responsive">
+        <table mat-table [dataSource]="permissionsDataSource" class="w-100">
+          <!-- Action Column -->
+          <ng-container matColumnDef="action">
+            <th style="width:20%" mat-header-cell *matHeaderCellDef>{{'ACTION' | translate}} </th>
+            <td style="width:20%" mat-cell *matCellDef="let userPermission">
+              <button *ngIf="userPermission.type === 'User'" class="btn btn-danger btn-sm" type="button"
+                (click)="deleteDocumentUserPermission(userPermission)"><i class="fas fa-trash"></i> {{'DELETE'
+                |translate}}</button>
+              <button *ngIf="userPermission.type === 'Role'" class="btn btn-danger btn-sm" type="button"
+                (click)="deleteDocumentRolePermission(userPermission)"><i class="fas fa-trash"></i> {{'DELETE' |
+                translate}}</button>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="isAllowDownload">
+            <th mat-header-cell *matHeaderCellDef>{{'ALLOW_DOWNLOAD' | translate}} </th>
+            <td mat-cell *matCellDef="let userPermission">
+              <ng-container *ngIf="userPermission.isAllowDownload">
+                {{'YES' | translate}}
+              </ng-container>
+              <ng-container *ngIf="!userPermission.isAllowDownload">
+                {{'NO' | translate}}
+              </ng-container>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="isAllowCopyMove">
+            <th mat-header-cell *matHeaderCellDef>{{'ALLOW_COPY_AND_MOVE' | translate}} </th>
+            <td mat-cell *matCellDef="let userPermission">
+
+              <mat-checkbox color="primary" (change)="changeCopyMovePermission($event,userPermission)" [checked]="userPermission.isAllowCopyMove == 1" value="1">
+              </mat-checkbox>
+
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef>{{'TYPE' | translate}} </th>
+            <td mat-cell *matCellDef="let userPermission"> {{userPermission.type}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> {{'USER_ROLE_NAME' | translate}} </th>
+            <td mat-cell *matCellDef="let userPermission">
+              <span *ngIf="userPermission.type === 'User'"> {{userPermission.user.firstName}}
+                {{userPermission.user.lastName}}
+              </span>
+              <span *ngIf="userPermission.type === 'Role'">
+                {{userPermission.role.name}}
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> {{'EMAIL' | translate}} </th>
+            <td mat-cell *matCellDef="let userPermission">
+              <span *ngIf="userPermission.type === 'User'">
+                {{userPermission.user.email}}
+              </span>
+              <span *ngIf="userPermission.type === 'Role'">
+                --
+              </span>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="startDate">
+            <th mat-header-cell *matHeaderCellDef> {{'START_DATE' | translate}} </th>
+            <td mat-cell *matCellDef="let userPermission">
+              <ng-container *ngIf="userPermission.isTimeBound">
+                {{userPermission.startDate | date: 'dd/MM/yyyy'}}
+              </ng-container>
+              <ng-container *ngIf="!userPermission.isTimeBound">
+                --
+              </ng-container>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="endDate">
+            <th mat-header-cell *matHeaderCellDef> {{'END_DATE' | translate}} </th>
+            <td mat-cell *matCellDef="let userPermission">
+              <ng-container *ngIf="userPermission.isTimeBound">
+                {{userPermission.endDate | date: 'dd/MM/yyyy'}}
+              </ng-container>
+              <ng-container *ngIf="!userPermission.isTimeBound">
+                --
+              </ng-container>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="documentPermissionsColumns;sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: documentPermissionsColumns;"></tr>
+        </table>
+        <mat-paginator #userPermissionsPaginator [pageSizeOptions]="[10, 20,50,100]"></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
