@@ -232,5 +232,9 @@
   "MOVE" : "Двигаться",
   "CURRENT_LOCATION" : "Текущее местоположение",
   "DOCUMENT_COPY_SUCCESSFULLY": "Документ успешно скопирован",
-  "DOCUMENT_MOVE_SUCCESSFULLY": "Документ успешно перемещен"
+  "DOCUMENT_MOVE_SUCCESSFULLY": "Документ успешно перемещен",
+  "SELECT_DOCUMENT_TYPE": "Выберите тип документа",
+  "RENAME_DOCUMENT": "Переименовать документ",
+  "DOCUMENT_RENAMED_SUCCESSFULLY": "Документ успешно переименован",
+  "MY_DOCUMENTS": "Мои документы"
 }

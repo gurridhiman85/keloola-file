@@ -232,5 +232,9 @@
   "MOVE" : "動く",
   "CURRENT_LOCATION" : "現在位置",
   "DOCUMENT_COPY_SUCCESSFULLY": "ドキュメントは正常にコピーされました",
-  "DOCUMENT_MOVE_SUCCESSFULLY": "ドキュメントは正常に移動されました"
+  "DOCUMENT_MOVE_SUCCESSFULLY": "ドキュメントは正常に移動されました",
+  "SELECT_DOCUMENT_TYPE": "ドキュメントの種類を選択してください",
+  "RENAME_DOCUMENT": "ドキュメントの名前を変更",
+  "DOCUMENT_RENAMED_SUCCESSFULLY": "ドキュメントの名前が正常に変更されました",
+  "MY_DOCUMENTS": "私の文書"
 }

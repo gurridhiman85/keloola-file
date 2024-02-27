@@ -8,4 +8,5 @@ export class DocumentResource extends ResourceParameter {
   parentId?: string = '';
   type?: string = '';
   exclude_document?:string = '';
+  is_owner?: number = 0;
 }

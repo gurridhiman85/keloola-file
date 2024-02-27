@@ -232,5 +232,9 @@
   "MOVE" : "이동하다",
   "CURRENT_LOCATION" : "현재 위치",
   "DOCUMENT_COPY_SUCCESSFULLY": "문서가 성공적으로 복사되었습니다",
-  "DOCUMENT_MOVE_SUCCESSFULLY": "문서가 성공적으로 이동되었습니다"
+  "DOCUMENT_MOVE_SUCCESSFULLY": "문서가 성공적으로 이동되었습니다",
+  "SELECT_DOCUMENT_TYPE": "문서 유형 선택",
+  "RENAME_DOCUMENT": "문서 이름 바꾸기",
+  "DOCUMENT_RENAMED_SUCCESSFULLY": "문서 이름이 성공적으로 변경되었습니다",
+  "MY_DOCUMENTS": "내 문서"
 }

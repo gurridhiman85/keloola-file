@@ -232,5 +232,9 @@
   "MOVE" : "Mover",
   "CURRENT_LOCATION" : "Ubicación actual",
   "DOCUMENT_COPY_SUCCESSFULLY": "Documento copiado exitosamente",
-  "DOCUMENT_MOVE_SUCCESSFULLY": "Documento movido exitosamente"
+  "DOCUMENT_MOVE_SUCCESSFULLY": "Documento movido exitosamente",
+  "SELECT_DOCUMENT_TYPE": "Seleccionar tipo de documento",
+  "RENAME_DOCUMENT": "Cambiar nombre del documento",
+  "DOCUMENT_RENAMED_SUCCESSFULLY": "Documento renombrado exitosamente",
+  "MY_DOCUMENTS": "Mis documentos"
 }

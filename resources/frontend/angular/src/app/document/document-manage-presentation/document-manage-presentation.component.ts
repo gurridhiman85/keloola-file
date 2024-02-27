@@ -43,6 +43,7 @@ export class DocumentManagePresentationComponent
   categories: Category[] = [];
   allCategories: Category[] = [];
   @Input() loading: boolean;
+  @Input() privateUpload: any;
   documentSource: string;
   @Output() onSaveDocument: EventEmitter<DocumentInfo> =
     new EventEmitter<DocumentInfo>();

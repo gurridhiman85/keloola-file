@@ -23,6 +23,7 @@ import { BasePreviewComponent } from '@shared/base-preview/base-preview.componen
 import { DocumentView } from '@core/domain-classes/document-view';
 import { DocumentReminderComponent } from '../document-reminder/document-reminder.component';
 import { AddDocumentComponent } from '../add-document/add-document.component';
+import { RenameDocumentComponent } from '../rename-document/rename-document.component';
 import { ReminderListComponent } from '../reminder-list/reminder-list.component';
 import { DocumentCommentComponent } from 'src/app/document/document-comment/document-comment.component';
 import { ClonerService } from '@core/services/clone.service';
@@ -85,6 +86,7 @@ export class DocumentLibraryListComponent
   mainPagePaginator:any = [];
   baseUrl : string;
   selectedCategoryId: string = '';
+  isPrivate : any = 0;
 
   constructor(
     private documentLibraryService: DocumentLibraryService,
@@ -116,6 +118,7 @@ export class DocumentLibraryListComponent
     this.userDetails = this.securityService.getUserDetail();
     this.mainPagePaginator.pageIndex = 0;
     this.mainPagePaginator.skip = 0;
+    this.documentService.breadCrumbArray = this.breadCrumbArray;
   }
 
   ngAfterViewInit() {
@@ -352,6 +355,11 @@ export class DocumentLibraryListComponent
   }
   getbreadCrumb(data){
     if(!data.mimeType){
+      this.isPrivate = 0;
+      if(data.isPrivate == 1){
+        this.isPrivate = 1;
+      }
+
       this.resetFilters();
       this.paginator.pageIndex = 0;
       this.parentfolderId = data.parentId;
@@ -545,6 +553,9 @@ export class DocumentLibraryListComponent
       data: {documentDetails : document,type : 'MOVE',from_module : 'assigned'}
     });
     dialogRef.afterClosed().subscribe((isRestore: boolean) => {
+      if(document.parentId){
+        this.documentResource.parentId = document.parentId;
+      }
       this.dataSource.loadDocuments(this.documentResource);
     });
   }
@@ -554,6 +565,23 @@ export class DocumentLibraryListComponent
       data: {documentDetails : document,type : 'COPY',from_module : 'assigned'}
     });
     dialogRef.afterClosed().subscribe((isRestore: boolean) => {
+      if(document.parentId){
+        this.documentResource.parentId = document.parentId;
+      }
+      this.dataSource.loadDocuments(this.documentResource);
+    });
+  }
+  documentRenameAction(document: DocumentInfo){
+    const dialogRef = this.dialog.open(RenameDocumentComponent, {
+      data: document,
+      width: '60vw',
+      maxHeight: '80vh',
+    });
+    dialogRef.afterClosed().subscribe((isRestore: boolean) => {
+      if(document.parentId){
+        this.documentResource.parentId = document.parentId;
+      }
+
       this.dataSource.loadDocuments(this.documentResource);
     });
   }

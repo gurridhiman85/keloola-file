@@ -36,6 +36,7 @@
             ></mat-progress-bar>
             <div class="progress-label" *ngIf="file.progress !== undefined" style="background: #d9cded; text-align: center;">
               {{ file.progress }}%
+              <span style="float: right;">Time Left : {{ file.timingRemainingStr }}</span>
             </div>
           </div>
         </div>
@@ -50,6 +51,7 @@
             ></mat-progress-bar>
             <div class="progress-label" style="background: #d9cded; text-align: center;">
               {{ uploadAveragePercentage.averageProgress }}%
+              <span style="float: right;">Time Left : {{ uploadAveragePercentage.averageTimingRemaining }}</span>
             </div>
           </div>
         </div>

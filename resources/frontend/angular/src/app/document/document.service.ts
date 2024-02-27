@@ -17,6 +17,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class DocumentService {
   selectedFolderId: number = 0;
+  privateDocument: number = 0;
   breadCrumbArray: { id: any; name: any; pageIndex: any;skip: any;}[] = [];
   fileArrayUpload: any;
   private _uploadPercentageFiles = new BehaviorSubject<any[]>([]);
@@ -42,7 +43,10 @@ export class DocumentService {
       (c) => c.metatag
     );
 
-    const url = `document/${document.id}`;
+    let url = `document/${document.id}`;
+    if(this.privateDocument == 1){
+      url = `privateDocument/${document.id}`;
+    }
     return this.httpClient
       .put<DocumentInfo>(url, document)
       .pipe(catchError(this.commonHttpErrorService.handleError));
@@ -74,11 +78,15 @@ export class DocumentService {
       .pipe(catchError(this.commonHttpErrorService.handleError));
   }
 
-  uploadChunk(document: DocumentInfo, file: File, chunkNumber: number, totalChunks: number, filename: string) {
+  uploadChunk(document: DocumentInfo, file: File, chunkNumber: number, totalChunks: number, filename: string, privateUpload: any) {
     document.documentMetaDatas = document.documentMetaDatas?.filter(
       (c) => c.metatag
     );
-    const url = `document/upload/chunks`;
+    let url = `document/upload/chunks`;
+    if(privateUpload == 1){
+      url = `privateDocuments/upload/chunks`;
+    }
+
     const formData = new FormData();
     formData.append('file', file, filename);
     formData.append('chunkNumber', chunkNumber.toString());
@@ -92,7 +100,7 @@ export class DocumentService {
       formData.append('localPath', document.localPath);
       formData.append('mainFolder', document.mainFolder);
     }
-
+    formData.append('isPrivate', privateUpload);
     formData.append(
       'documentMetaDatas',
       JSON.stringify(document.documentMetaDatas)
@@ -116,7 +124,10 @@ export class DocumentService {
   }
 
   deleteDocument(id: string): Observable<void | CommonError> {
-    const url = `document/${id}`;
+    let url = `document/${id}`;
+    if(this.privateDocument == 1){
+      url = `privateDocuments/${id}`;
+    }
     return this.httpClient
       .delete<void>(url)
       .pipe(catchError(this.commonHttpErrorService.handleError));
@@ -139,7 +150,10 @@ export class DocumentService {
   getDocuments(
     resource: DocumentResource
   ): Observable<HttpResponse<DocumentInfo[]> | CommonError> {
-    const url = `documents`;
+    let url = `documents`;
+    if(this.privateDocument == 1){
+      url = `privateDocuments`;
+    }
     const customParams = new HttpParams()
       .set('Fields', resource.fields)
       .set('OrderBy', resource.orderBy)
@@ -156,7 +170,8 @@ export class DocumentService {
       .set('id', resource.id.toString())
       .set('parentId', resource.parentId.toString())
       .set('document_type', resource.type)
-      .set('exclude_document', resource.exclude_document);
+      .set('exclude_document', resource.exclude_document)
+      .set('is_owner', resource.is_owner);
 
     return this.httpClient
       .get<DocumentInfo[]>(url, {
@@ -197,7 +212,10 @@ export class DocumentService {
 
 
   saveNewVersionDocument(document): Observable<DocumentInfo | CommonError> {
-    const url = `documentversion`;
+    let url = `documentversion`;
+    if(this.privateDocument == 1){
+      url = `privatedocumentversion`;
+    }
     const formData = new FormData();
     formData.append('uploadFile', document.fileData);
     formData.append('documentId', document.documentId);
@@ -207,21 +225,30 @@ export class DocumentService {
   }
 
   getDocumentVersion(id: string) {
-    const url = `documentversion/${id}`;
+    let url = `documentversion/${id}`;
+    if(this.privateDocument == 1){
+      url = `privatedocumentversion/${id}`;
+    }
     return this.httpClient
       .get<DocumentVersion[]>(url)
       .pipe(catchError(this.commonHttpErrorService.handleError));
   }
 
   restoreDocumentVersion(id: string, versionId: string) {
-    const url = `documentversion/${id}/restore/${versionId}`;
+    let url = `documentversion/${id}/restore/${versionId}`;
+    if(this.privateDocument == 1){
+      url = `privatedocumentversion/${id}/restore/${versionId}`;
+    }
     return this.httpClient
       .post<boolean>(url, {})
       .pipe(catchError(this.commonHttpErrorService.handleError));
   }
 
   getdocumentMetadataById(id: string) {
-    const url = `document/${id}/getMetatag`;
+    let url = `document/${id}/getMetatag`;
+    if(this.privateDocument == 1){
+      url = `privatedocument/${id}/getMetatag`;
+    }
     return this.httpClient
       .get(url)
       .pipe(catchError(this.commonHttpErrorService.handleError));
@@ -255,6 +282,7 @@ export class DocumentService {
     formData.append('documentId', documentId);
     formData.append('toFolder', toFolder);
     formData.append('type', type);
+    formData.append('isPrivate', this.privateDocument.toString());
 
     return this.httpClient
       .post<void>(url, formData)

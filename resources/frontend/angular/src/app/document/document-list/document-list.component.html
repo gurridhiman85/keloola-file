@@ -123,8 +123,7 @@
                           <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #menu="matMenu">
-                          <button *hasClaim="'ALL_DOCUMENTS_EDIT_DOCUMENT'" mat-menu-item class="btn btn-light btn-sm"
-                            (click)="editDocument(document)">
+                          <button *hasClaim="'ALL_DOCUMENTS_EDIT_DOCUMENT'" mat-menu-item class="btn btn-light btn-sm" (click)="editDocument(document)" [disabled]="!document.mimeType">
                             <mat-icon>edit</mat-icon>
                             {{'EDIT' | translate}}
                           </button>

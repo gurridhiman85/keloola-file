@@ -57,7 +57,7 @@ export class AddDocumentComponent extends BaseComponent implements OnInit {
   }
   selectedFolderId:number;
   uploadPercentagefiles: any;
-  uploadAveragePercentage: { folder: string, averageProgress: number } = { folder: '', averageProgress: 0 };
+  uploadAveragePercentage: { folder: string, averageProgress: number, averageTimingRemaining: string } = { folder: '', averageProgress: 0, averageTimingRemaining: '' };
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -70,7 +70,7 @@ export class AddDocumentComponent extends BaseComponent implements OnInit {
     private translationService: TranslationService
   ) {
     super();
-    this.uploadAveragePercentage = { folder: '', averageProgress: 0 };
+    this.uploadAveragePercentage = { folder: '', averageProgress: 0, averageTimingRemaining: '' };
   }
 
   ngOnInit(): void {
@@ -221,9 +221,11 @@ export class AddDocumentComponent extends BaseComponent implements OnInit {
     let offset = 0;
 
     const totalChunks = Math.ceil(totalSize / chunkSize);
+    const startTime = new Date().getTime(); // Record the start time of the upload
 
     for (let chunkNumber = 1; chunkNumber <= totalChunks; chunkNumber++) {
       const chunk = fileData.slice(offset, offset + chunkSize);
+      const chunkStartTime = new Date().getTime(); // Record the start time of the chunk upload
 
       await (this.commonService
         .uploadChunk(document, chunk, chunkNumber, totalChunks, filename) as any) // Use 'as any' to temporarily avoid type issues
@@ -233,14 +235,53 @@ export class AddDocumentComponent extends BaseComponent implements OnInit {
               const percentDone = event.loaded;
 
               this.uploadPercentagefiles[i].progress = percentDone;
+
+              // Calculate upload time for the chunk
+              const chunkEndTime = new Date().getTime();
+              const chunkUploadTime = (chunkEndTime - chunkStartTime) / 1000;
+  
+              // Calculate estimated time remaining for upload
+              const chunksRemaining = totalChunks - chunkNumber;
+              const estimatedTimeRemaining = (chunksRemaining * chunkUploadTime);
+              let pendingTimeString;
+              let pendingTime;
+              if (estimatedTimeRemaining >= 60) {
+                  const minutes = Math.floor(estimatedTimeRemaining / 60);
+                  const seconds = estimatedTimeRemaining % 60;
+                  pendingTimeString = `${minutes.toFixed(0)}.${seconds.toFixed(0)} min`;
+                  pendingTime = minutes.toFixed(0)+'.'+seconds.toFixed(0);
+              } else {
+                  pendingTimeString = `${estimatedTimeRemaining.toFixed(2)} sec`;
+                  pendingTime = estimatedTimeRemaining.toFixed(2);
+              }
+              this.uploadPercentagefiles[i].timingRemainingStr = pendingTimeString;
+              this.uploadPercentagefiles[i].timingRemaining = pendingTime;
+
               // Calculate the average progress
               const arrayOfFiles: File[] = Array.from(this.uploadPercentagefiles);
+              const pendingFiles = arrayOfFiles.filter(file => file['progress'] < 100);
+
               const totalProgress = arrayOfFiles.reduce((sum, file) => sum + (file['progress'] || 0), 0);
+              const totalTimingRemaining = arrayOfFiles.reduce((sum, file) => sum + (parseFloat(file['timingRemaining']) || 0), 0);
+
               const averageProgress = arrayOfFiles.length > 0 ? totalProgress / arrayOfFiles.length : 0;
+              const averageTimePending = arrayOfFiles.length > 0 ? totalTimingRemaining / pendingFiles.length : 0;
 
               let roundedValue = Math.round(averageProgress * 100) / 100;
               roundedValue = Number.isInteger(roundedValue) ? Math.floor(averageProgress) : roundedValue;
               this.uploadAveragePercentage.averageProgress = roundedValue;
+
+              let averagePendingTimeString;
+              if (averageTimePending >= 60) {
+                  const minutes = Math.floor(averageTimePending / 60);
+                  const seconds = averageTimePending % 60;
+                  averagePendingTimeString = `${minutes.toFixed(0)}.${seconds.toFixed(0)} min`;
+              } else {
+                averagePendingTimeString = `${averageTimePending.toFixed(2)} sec`;
+              }
+              //this.uploadPercentagefiles[i].timingRemaining = averagePendingTimeString;
+              //console.log('average time :',averagePendingTimeString);
+              this.uploadAveragePercentage.averageTimingRemaining = averagePendingTimeString;
             }
           }),
           filter((event: any) => event.type === 'UploadProgress')

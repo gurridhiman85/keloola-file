@@ -25,6 +25,15 @@ export const ROUTES: RouteInfo[] = [
     groupTitle: false,
     claims: ['ALL_DOCUMENTS_VIEW_DOCUMENTS']
   },
+
+  {
+    path: 'my-documents',
+    title: 'MY_DOCUMENTS',
+    icon: 'file-text',
+    class: '',
+    groupTitle: false,
+    claims: []
+  },
   {
     path: 'categories',
     title: 'DOCUMENT_CATEGORIES',

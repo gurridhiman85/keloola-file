@@ -1,5 +1,6 @@
 export interface CreateFolder {
   folderName: string;
-  documentId: number;
+  documentId: any;
   type: string;
+  isPrivate:any;
 }

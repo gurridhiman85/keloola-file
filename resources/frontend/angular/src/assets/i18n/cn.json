@@ -232,5 +232,9 @@
   "MOVE" : "移动",
   "CURRENT_LOCATION" : "当前位置",
   "DOCUMENT_COPY_SUCCESSFULLY": "文档复制成功",
-  "DOCUMENT_MOVE_SUCCESSFULLY": "文档移动成功"
+  "DOCUMENT_MOVE_SUCCESSFULLY": "文档移动成功",
+  "SELECT_DOCUMENT_TYPE": "选择文档类型",
+  "RENAME_DOCUMENT": "重命名文档",
+  "DOCUMENT_RENAMED_SUCCESSFULLY": "文档重命名成功",
+  "MY_DOCUMENTS": "我的文件"
 }

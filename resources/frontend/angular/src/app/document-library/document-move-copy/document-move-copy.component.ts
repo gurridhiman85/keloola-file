@@ -103,6 +103,7 @@ export class DocumentMoveCopyComponent
     this.dataSource = new DocumentLibraryDataSource(
       this.documentLibraryService
     );
+    this.documentResource.is_owner = 1;
     this.dataSource.loadDocuments(this.documentResource);
     this.getResourceParameter();
     this.userDetails = this.securityService.getUserDetail();

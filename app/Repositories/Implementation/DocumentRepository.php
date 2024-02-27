@@ -42,7 +42,7 @@ class DocumentRepository extends BaseRepository implements DocumentRepositoryInt
 
     public function getDocuments($attributes)
     {
-
+        $userId = Auth::parseToken()->getPayload()->get('userId');
         $query = Documents::select(['documents.id', 'documents.name', 'documents.url', 'documents.createdDate', 'documents.description', 'categories.id as categoryId', 'categories.name as categoryName', DB::raw("CONCAT(users.firstName,' ', users.lastName) as createdByName"), 'documents.mime_type', 'documents.parentId','documents.createdBy'])
             ->join('categories', 'documents.categoryId', '=', 'categories.id')
             ->join('users', 'documents.createdBy', '=', 'users.id');
@@ -71,7 +71,11 @@ class DocumentRepository extends BaseRepository implements DocumentRepositoryInt
             $query = $query->where('documents.parentId', $attributes->parentId);
         }elseif($attributes->id){
             $query = $query->where('documents.id', $attributes->id);
+        }elseif (isset($attributes->is_owner) && $attributes->is_owner == 1) {
+            $query = $query->where('documents.isPrivate', 1);
+            $query = $query->where('documents.is_main', 1);
         }else{
+            $query = $query->where('documents.isPrivate', 0);
             $query = $query->where('documents.is_main', 1);
         }
 
@@ -81,6 +85,10 @@ class DocumentRepository extends BaseRepository implements DocumentRepositoryInt
 
         if (!empty($attributes->exclude_document)) {
             $query = $query->where('documents.id','!=', $attributes->exclude_document);
+        }
+
+        if (isset($attributes->is_owner) && $attributes->is_owner == 1) {
+            $query = $query->where('documents.createdBy', $userId);
         }
 
         if ($attributes->name) {
@@ -118,6 +126,7 @@ class DocumentRepository extends BaseRepository implements DocumentRepositoryInt
 
     public function getDocumentsCount($attributes)
     {
+        $userId = Auth::parseToken()->getPayload()->get('userId');
         $query = Documents::query()
             ->join('categories', 'documents.categoryId', '=', 'categories.id')
             ->join('users', 'documents.createdBy', '=', 'users.id');
@@ -125,9 +134,16 @@ class DocumentRepository extends BaseRepository implements DocumentRepositoryInt
         if ($attributes->categoryId) {
             $query = $query->where('categoryId', $attributes->categoryId);
         }
-        if (!empty($attributes->parentId)) {
+
+        if ($attributes->parentId) {
             $query = $query->where('documents.parentId', $attributes->parentId);
+        }elseif($attributes->id){
+            $query = $query->where('documents.id', $attributes->id);
+        }elseif (isset($attributes->is_owner) && $attributes->is_owner == 1) {
+            $query = $query->where('documents.isPrivate', 1);
+            $query = $query->where('documents.is_main', 1);
         }else{
+            $query = $query->where('documents.isPrivate', 0);
             $query = $query->where('documents.is_main', 1);
         }
 
@@ -137,6 +153,9 @@ class DocumentRepository extends BaseRepository implements DocumentRepositoryInt
 
         if (!empty($attributes->exclude_document)) {
             $query = $query->where('documents.id','!=', $attributes->exclude_document);
+        }
+        if (isset($attributes->is_owner) && $attributes->is_owner == 1) {
+            $query = $query->where('documents.createdBy', $userId);
         }
         if (!empty($attributes->from_module) && $attributes->from_module == 'assigned') {
             $query = $query->where('documents.createdBy', Auth::parseToken()->getPayload()->get('userId'));
@@ -196,6 +215,7 @@ class DocumentRepository extends BaseRepository implements DocumentRepositoryInt
             $model->mime_type = $extension;
             $model->document_type = $request->document_type;
             $metaDatas = $request->documentMetaDatas;
+            $model->isPrivate = $request->isPrivate;
             $saved = $model->save();
             $this->resetModel();
             $result = $this->parseResult($model);
@@ -228,6 +248,7 @@ class DocumentRepository extends BaseRepository implements DocumentRepositoryInt
             $model->is_main = $request->is_main;
             $model->mime_type = null;
             $model->document_type = $request->document_type;
+            $model->isPrivate = $request->isPrivate;
             $metaDatas = $request->documentMetaDatas;
             $saved = $model->save();
             $this->resetModel();
@@ -292,7 +313,7 @@ class DocumentRepository extends BaseRepository implements DocumentRepositoryInt
             ->get();
         $query = Documents::select([
             'documents.id', 'documents.name', 'documents.url', 'documents.createdDate', 'documents.description', 'categories.id as categoryId', 'categories.name as categoryName',
-            DB::raw("CONCAT(users.firstName,' ', users.lastName) as createdByName"), 'documents.mime_type', 'documents.parentId','documents.createdBy'
+            DB::raw("CONCAT(users.firstName,' ', users.lastName) as createdByName"), 'documents.mime_type', 'documents.parentId','documents.createdBy','documents.isPrivate'
         ]);
         if (empty($attributes->parentId)) {
             $query = Documents::select([
@@ -303,7 +324,7 @@ class DocumentRepository extends BaseRepository implements DocumentRepositoryInt
                 GROUP BY documentUserPermissions.documentId) as maxUserPermissionEndDate"),
                 DB::raw("(SELECT max(documentRolePermissions.endDate) FROM documentRolePermissions
                 WHERE documentRolePermissions.documentId = documents.id and documentRolePermissions.isTimeBound =1
-                GROUP BY documentRolePermissions.documentId) as maxRolePermissionEndDate"), 'documents.mime_type', 'documents.parentId','documents.createdBy'
+                GROUP BY documentRolePermissions.documentId) as maxRolePermissionEndDate"), 'documents.mime_type', 'documents.parentId','documents.createdBy','documents.isPrivate'
             ]);
         }
 
@@ -369,8 +390,8 @@ class DocumentRepository extends BaseRepository implements DocumentRepositoryInt
 
         if ($attributes->parentId) {
             $query = $query->where('documents.parentId', $attributes->parentId);
-        }else{
-            //$query = $query->where('documents.is_main', 1);
+        }elseif (isset($attributes->is_owner) && $attributes->is_owner == 1) {
+            $query = $query->where('documents.isPrivate', 0);
         }
 
         if (!empty($attributes->document_type) && $attributes->document_type == 'folder') {
@@ -399,7 +420,6 @@ class DocumentRepository extends BaseRepository implements DocumentRepositoryInt
         }
 
         $results = $query->skip($attributes->skip)->take($attributes->pageSize)->get();
-        //
         if(!empty($results)){
             $results_new = [];
             foreach($results as $result){
@@ -952,15 +972,25 @@ class DocumentRepository extends BaseRepository implements DocumentRepositoryInt
 
     }
 
-    public function create_all_parent_array($parentId = null){
+    public function create_all_parent_array($parentId = null,$data = null){
         $array = [];
 
         if(!empty($parentId)){
             $details = Documents::where('id',$parentId)->first();
             if(!empty($details)){
-                array_push($array,$details['id']);
+                if($data == 'all'){
+                    array_push($array,$details->toArray());
+                }else{
+                    array_push($array,$details['id']);
+                }
+
                 if(!empty($details['parentId'])){
-                    $result = $this->create_all_parent_array($details['parentId']);
+                    if($data == 'all'){
+                        $result = $this->create_all_parent_array($details['parentId'], 'all');
+                    }else{
+                        $result = $this->create_all_parent_array($details['parentId']);
+                    }
+
                     if(!empty($result)){
                         $array = array_merge($array,$result);
                     }

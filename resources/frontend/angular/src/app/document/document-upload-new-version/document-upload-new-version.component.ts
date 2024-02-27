@@ -30,6 +30,7 @@ export class DocumentUploadNewVersionComponent
   progress = 0;
   fileInfo: FileInfo;
   fileData: any;
+  privateDocument:any = 0;
   constructor(
     private fb: UntypedFormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -45,6 +46,7 @@ export class DocumentUploadNewVersionComponent
 
   ngOnInit(): void {
     this.createDocumentForm();
+    this.privateDocument = this.documentService.privateDocument;
   }
 
   createDocumentForm() {

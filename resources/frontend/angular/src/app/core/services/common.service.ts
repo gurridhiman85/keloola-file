@@ -22,16 +22,21 @@ import { DocumentVerifyLinkInfo } from '@core/domain-classes/document-verify-lin
 import { ReminderResourceParameter } from '@core/domain-classes/reminder-resource-parameter';
 import { Reminder } from '@core/domain-classes/reminder';
 import { UserResource } from '@core/domain-classes/user-resource';
+import { DocumentService } from '../../document/document.service';
 
 @Injectable({ providedIn: 'root' })
 export class CommonService {
   constructor(
     private httpClient: HttpClient,
-    private commonHttpErrorService: CommonHttpErrorService
+    private commonHttpErrorService: CommonHttpErrorService,
+    private documentService: DocumentService
   ) {}
 
   getUsers(): Observable<User[] | CommonError> {
-    const url = `user`;
+    let url = `user`;
+    if(this.documentService.privateDocument == 1){
+      url = `privateUser`;
+    }
     return this.httpClient
       .get<User[]>(url)
       .pipe(catchError(this.commonHttpErrorService.handleError));
@@ -61,14 +66,20 @@ export class CommonService {
       .pipe(catchError(this.commonHttpErrorService.handleError));
   }
   getUsersExceptLoggedIn(): Observable<User[] | CommonError> {
-    const url = `users`;
+    let url = `user`;
+    if(this.documentService.privateDocument == 1){
+      url = `privateUser`;
+    }
     return this.httpClient
       .get<User[]>(url)
       .pipe(catchError(this.commonHttpErrorService.handleError));
   }
 
   getRoles(): Observable<Role[] | CommonError> {
-    const url = `role`;
+    let url = `role`;
+    if(this.documentService.privateDocument == 1){
+      url = `privateRole`;
+    }
     return this.httpClient
       .get<Role[]>(url)
       .pipe(catchError(this.commonHttpErrorService.handleError));
@@ -176,10 +187,6 @@ export class CommonService {
     return this.httpClient.post<DocumentInfo>(url,formData)
       .pipe(catchError(this.commonHttpErrorService.handleError));
 
-
-    // return this.httpClient
-    //   .post<DocumentInfo>(url, document)
-    //   .pipe(catchError(this.commonHttpErrorService.handleError));
   }
 
   uploadChunk(document: DocumentInfo, file: File, chunkNumber: number, totalChunks: number, filename: string) {
@@ -216,6 +223,8 @@ export class CommonService {
     const formData = new FormData();
     formData.append('localPath', document.localPath);
     formData.append('parentId', document.parentId);
+    formData.append('isPrivate', this.documentService.privateDocument.toString());
+
     const url = `document/checkFolderExitence`;
     return this.httpClient
       .post<void>(url,formData)
@@ -270,7 +279,11 @@ export class CommonService {
     formData.append('isAllow', isAllow.toString());
     formData.append('permissionId', permissionId);
     formData.append('type', type);
-    const url = `documentRolePermission/updateCopyMovePermission`;
+    //const url = `documentRolePermission/updateCopyMovePermission`;
+    let url = `documentRolePermission/updateCopyMovePermission`;
+    if(this.documentService.privateDocument == 1){
+      url = `privateDocumentRolePermission/updateCopyMovePermission`;
+    }
     return this.httpClient
       .post<void>(url,formData)
       .pipe(catchError(this.commonHttpErrorService.handleError));

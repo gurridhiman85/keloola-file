@@ -30,4 +30,5 @@ export interface DocumentInfo {
   localPath?:string;
   documentType?:string;
   mainFolder?:any;
+  isPrivate?:any;
 }

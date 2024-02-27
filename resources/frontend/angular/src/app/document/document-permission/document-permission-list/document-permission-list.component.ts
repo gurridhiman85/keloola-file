@@ -51,6 +51,7 @@ export class DocumentPermissionListComponent
   ];
   permissionsDataSource: MatTableDataSource<DocumentPermission>;
   @ViewChild('userPermissionsPaginator') userPermissionsPaginator: MatPaginator;
+  isPrivate:any = 0;
 
   constructor(
     private documentService: DocumentService,
@@ -72,6 +73,18 @@ export class DocumentPermissionListComponent
     this.sub$.sink = this.route.params.subscribe((params) => {
       this.getDocumentPrmission();
     });
+    this.isPrivate = this.documentService.privateDocument;
+    if(this.isPrivate == 1){
+      this.documentPermissionsColumns = [
+        'action',
+        'type',
+        'isAllowDownload',
+        'name',
+        'email',
+        'startDate',
+        'endDate',
+      ];
+    }
   }
 
   getDocumentPrmission() {
@@ -154,8 +167,6 @@ export class DocumentPermissionListComponent
   }
 
   addDocumentRolePermission(): void {
-
-
     this.sub$.sink = this.commonService.getRoles().subscribe((roles: Role[]) => {
       this.roles = roles;
       if (this.documentPermissions) {
@@ -208,7 +219,6 @@ export class DocumentPermissionListComponent
     this.dialogRef.close();
   }
   changeCopyMovePermission(event: MatCheckboxChange,permission: DocumentRolePermission) {
-    console.log('permission',permission);
     let isAllow = 0;
     if (event.checked) {
       isAllow = 1;

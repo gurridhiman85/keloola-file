@@ -26,6 +26,7 @@ import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime-ex'
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DocumentCreateFolderComponent } from './document-create-folder/document-create-folder.component';
 import { DocumentMoveCopyComponent } from './document-move-copy/document-move-copy.component';
+import { RenameDocumentComponent } from './rename-document/rename-document.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { DocumentMoveCopyComponent } from './document-move-copy/document-move-co
     ReminderListComponent,
     AddReminderComponent,
     DocumentCreateFolderComponent,
-    DocumentMoveCopyComponent
+    DocumentMoveCopyComponent,
+    RenameDocumentComponent
   ],
   imports: [
     CommonModule,

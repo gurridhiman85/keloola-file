@@ -59,7 +59,7 @@ class DocumentPermissionRepository extends BaseRepository implements DocumentPer
 
     public function addDocumentRolePermission($request)
     {
-
+        //dd($request);
         $documentRolePermissions = $request['documentRolePermissions'];
         if(!empty($documentRolePermissions)){
             $rolePermissionsArray = array();
@@ -99,7 +99,7 @@ class DocumentPermissionRepository extends BaseRepository implements DocumentPer
                         'documentId' => $docuemntrole['documentId'],
                         'endDate' => $this->endDate  ?? '',
                         'isAllowDownload' => $docuemntrole['isAllowDownload'],
-                        'isAllowCopyMove' => $docuemntrole['isAllowCopyMove'],
+                        //'isAllowCopyMove' => $docuemntrole['isAllowCopyMove'],
                         'isTimeBound' => $docuemntrole['isTimeBound'],
                         'roleId' => $docuemntrole['roleId'],
                         'startDate' => $this->startDate ?? ''
@@ -191,7 +191,7 @@ class DocumentPermissionRepository extends BaseRepository implements DocumentPer
                         'documentId' => $docuemntUser['documentId'],
                         'endDate' => $this->endDate  ?? '',
                         'isAllowDownload' => $docuemntUser['isAllowDownload'],
-                        'isAllowCopyMove' => $docuemntUser['isAllowCopyMove'],
+                        //'isAllowCopyMove' => $docuemntUser['isAllowCopyMove'],
                         'isTimeBound' => $docuemntUser['isTimeBound'],
                         'userId' => $docuemntUser['userId'],
                         'startDate' => $this->startDate ?? ''

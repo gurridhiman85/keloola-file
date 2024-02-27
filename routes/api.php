@@ -161,9 +161,9 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('hasToken:ALL_DOCUMENTS_CREATE_DOCUMENT')->group(function () {
         Route::post('/document', [DocumentController::class, 'saveDocument']);
         Route::post('/document/upload/chunks', [DocumentController::class, 'uploadChunks']);
-        Route::post('/document/checkFolderExitence', [DocumentController::class, 'checkFolderExitence']);
-    });
 
+    });
+    Route::post('/document/checkFolderExitence', [DocumentController::class, 'checkFolderExitence']);
 
     Route::get('/getFileFolderLink/{id}', [DocumentController::class, 'getFileFolderLinkDetails']);
 
@@ -189,6 +189,7 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/document/{id}', [DocumentController::class, 'deleteDocument']);
     });
     Route::post('/create_folder', [DocumentController::class, 'createFolder']);
+    Route::post('/rename_document', [DocumentController::class, 'renameDocument']);
     Route::post('/save_document_link_details', [DocumentController::class, 'save_document_link_details']);
     Route::post('/movecopyDocument', [DocumentController::class, 'moveCopyDocument']);
 
@@ -296,10 +297,28 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/email_with_file_link', [EmailController::class, 'send_document_link_via_Email']);
 
+    /**private documents */
+    Route::get('/privateDocuments', [DocumentController::class, 'getDocuments']);
+    Route::post('/privateDocuments', [DocumentController::class, 'saveDocument']);
+    Route::post('/privateDocuments/upload/chunks', [DocumentController::class, 'uploadChunks']);
+    Route::get('/privateDocumentRolePermission/{id}', [DocumentPermissionController::class, 'edit']);
+    Route::delete('/privateDocumentUserPermission/{id}', [DocumentPermissionController::class, 'deleteDocumentUserPermission']);
+    Route::delete('/privateDocumentRolePermission/{id}', [DocumentPermissionController::class, 'deleteDocumentRolePermission']);
+    Route::post('/privateDocumentUserPermission', [DocumentPermissionController::class, 'addDocumentUserPermission']);
+    Route::post('/privateDocumentRolePermission', [DocumentPermissionController::class, 'addDocumentRolePermission']);
+    Route::post('/privateDocumentRolePermission/multiple', [DocumentPermissionController::class, 'multipleDocumentsToUsersAndRoles']);
+    Route::get('/privateUser', [UserController::class, 'get_users']);
+    Route::get('/privateRole', [RoleController::class, 'index']);
+    Route::get('/privatedocumentversion/{documentId}', [DocumentVersionController::class, 'index']);
+    Route::post('/privatedocumentversion', [DocumentVersionController::class, 'saveNewVersionDocument']);
+    Route::post('/privatedocumentversion/{id}/restore/{versionId}', [DocumentVersionController::class, 'restoreDocumentVersion']);
+    Route::delete('/privateDocuments/{id}', [DocumentController::class, 'deleteDocument']);
+    Route::put('/privateDocument/{id}', [DocumentController::class, 'updateDocument']);
+    Route::get('/privatedocument/{id}/getMetatag', [DocumentController::class, 'getDocumentMetatags']);
+    Route::post('/privateDocumentRolePermission/updateCopyMovePermission', [DocumentPermissionController::class, 'updateCopyMovePermission']);
+    /**private documents */
+
 });
 Route::get('/test_documents', [DocumentController::class, 'test_documents']);
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
 

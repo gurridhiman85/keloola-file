@@ -25,6 +25,7 @@ export class ManageUserPermissionComponent
   selectedUsers: User[] = [];
   minDate: Date;
   permissionForm: UntypedFormGroup;
+  isAllowDownload:any;
   constructor(
     private documentPermissionService: DocumentPermissionService,
     private toastrService: ToastrService,
@@ -40,6 +41,8 @@ export class ManageUserPermissionComponent
   ngOnInit(): void {
     this.createUserPermissionForm();
     this.selectedUsers = this.data['selectedUsers'];
+    this.isAllowDownload = this.data['isAllowDownload'];
+    //console.log(this.isAllowDownload);
   }
 
   closeDialog() {
@@ -52,7 +55,6 @@ export class ManageUserPermissionComponent
       startDate: [''],
       endDate: [''],
       isAllowDownload: new UntypedFormControl(false),
-      // isAllowCopyMove: new UntypedFormControl(false),
     });
   }
 

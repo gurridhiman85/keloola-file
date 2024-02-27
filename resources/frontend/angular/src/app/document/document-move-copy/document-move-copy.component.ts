@@ -99,6 +99,8 @@ export class DocumentMoveCopyComponent
     this.documentResource.type = 'folder';
     this.documentService.setFunction(this.getparentbreadCrumb.bind(this));
     this.documentDetails = this.data.documentDetails;
+
+    this.documentResource.is_owner = this.documentService.privateDocument;
     if(this.data.type == "MOVE"){
       this.documentResource.exclude_document = this.documentDetails.id;
     }

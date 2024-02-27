@@ -30,7 +30,8 @@ export class DocumentLibraryService {
       .set('id', resource.id.toString())
       .set('parentId', resource.parentId)
       .set('document_type', resource.type)
-      .set('exclude_document', resource.exclude_document);
+      .set('exclude_document', resource.exclude_document)
+      .set('is_owner', resource.is_owner);
 
     return this.httpClient.get<DocumentInfo[]>(url, {
       params: customParams,
@@ -66,6 +67,11 @@ export class DocumentLibraryService {
     const url = `document/${id}/not_assigned`;
     return this.httpClient
       .get<DocumentInfo>(url)
+      .pipe(catchError(this.commonHttpErrorService.handleError));
+  }
+  renameDocument(createFolder: CreateFolder): Observable<void | CommonError> {
+    const url = 'rename_document';
+    return this.httpClient.post<void>(url, createFolder)
       .pipe(catchError(this.commonHttpErrorService.handleError));
   }
 }

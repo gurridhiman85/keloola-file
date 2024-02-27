@@ -69,6 +69,12 @@ const routes: Routes = [
           import('./document/document.module').then((m) => m.DocumentModule),
       },
       {
+        path: 'my-documents',
+        canLoad: [AuthGuard],
+        loadChildren: () =>
+          import('./document/my-document.module').then((m) => m.MyDocumentModule),
+      },
+      {
         path: 'document-audit-trails',
         canLoad: [AuthGuard],
         loadChildren: () =>

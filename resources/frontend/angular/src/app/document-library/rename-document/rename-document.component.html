@@ -1,0 +1,47 @@
+<div class="d-flex">
+  <h2 mat-dialog-title>{{'RENAME_DOCUMENT' | translate}}</h2>
+  <button mat-icon-button class="close-button ms-auto" (click)="closeDialog()">
+    <mat-icon class="close-icon" color="warn">close</mat-icon>
+  </button>
+</div>
+<form [formGroup]="createFolder">
+  <div mat-dialog-content>
+    <div class="row">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="body">
+            <div class="row">
+              <div class="col-md-12 p-b-1">
+                <div class="input-group">
+                  <span class="input-group-text" id="folderName">
+                    {{'DOCUMENT_NAME' | translate}}
+                  </span>
+                  <input formControlName="folderName" type="text" class="form-control" placeholder="Document Name"
+                    aria-label="Name" aria-describedby="folderName">
+                </div>
+                <div class="text-danger"
+                  *ngIf="createFolder.get('folderName').touched && createFolder.get('folderName').hasError('required')">
+                  {{'DOCUMENT_NAME_IS_REQUIRED' | translate}}
+                </div>
+                <div class="text-danger" *ngIf="createFolder.get('folderName').hasError('forbiddenChars')">
+                  <!-- Please enter a valid folder name without special characters. -->
+                  {{'PLEASE_ENTER_VALID_DOCUMENT_NAME' | translate}}
+                </div>
+              </div>
+              <div class="loading-shade" *ngIf="isLoading">
+                <mat-spinner></mat-spinner>
+              </div>
+              <div class="col-md-12 mt-1">
+                <button (click)="create_Folder()" type="submit" class="btn btn-success">
+                  <i class="fas fa-save"></i>
+                  {{'UPDATE' | translate}}
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

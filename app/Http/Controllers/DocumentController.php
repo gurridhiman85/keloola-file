@@ -106,9 +106,9 @@ class DocumentController extends Controller
         if ($request->has('exclude_document')) {
             $this->queryString->exclude_document = $request->input('exclude_document');
         }
-        // if ($request->has('from_module')) {
-        //     $this->queryString->from_module = $request->input('from_module');
-        // }
+        if ($request->has('is_owner')) {
+            $this->queryString->is_owner = $request->input('is_owner');
+        }
 
         $count = $this->documentRepository->getDocumentsCount($this->queryString);
         return response()->json($this->documentRepository->getDocuments($this->queryString))
@@ -118,7 +118,6 @@ class DocumentController extends Controller
     public function officeviewer(Request $request, $id)
     {
         $isTokenAvailable = $this->documenTokenRepository->getDocumentPathByToken($id, $request);
-
         if ($isTokenAvailable == false) {
             return response()->json([
                 'message' => 'Document Not Found.',
@@ -143,7 +142,6 @@ class DocumentController extends Controller
         $fileSize = Storage::disk('local')->size($fileupload); // Get file size in bytes
         $maxFileSize = 10 * 1024 * 1024; // 10 MB in bytes
         $url = Storage::disk('local')->url($fileupload);
-        //dd($url);
 
         if ($fileSize > $maxFileSize) {
             if (Storage::disk('local')->exists($fileupload)) {
@@ -185,12 +183,14 @@ class DocumentController extends Controller
 
     public function newDownload($id, $downloadType = null, $isVersion = false){
         set_time_limit(0); // Set to 0 for no time limit
+        $userId = $randnum = rand(1111111111,9999999999);;
         if($downloadType == 'multiple'){
             $ids = json_decode($id);
             if(!empty($ids)){
 
-                $duplicateFolderName = 'batch_download'.time();
-                $duplicateDirectory = public_path('documents_copy/'.$duplicateFolderName);
+                $duplicateFolderName = 'batch_download'.time().$userId;
+                //$duplicateDirectory = public_path('documents_copy/'.$duplicateFolderName);
+                $duplicateDirectory = storage_path('app/temp/documents_copy/'.$duplicateFolderName);
 
                 if (!File::exists($duplicateDirectory)) {
                     File::makeDirectory($duplicateDirectory, 0777, true);
@@ -212,17 +212,19 @@ class DocumentController extends Controller
 
                 /**Create Zip of new folder generated starts*/
                 $folder_name = $duplicateFolderName;
-                $document_local_path = escapeshellarg(public_path('documents_copy'));
+                //$document_local_path = escapeshellarg(public_path('documents_copy'));
+                $document_local_path = escapeshellarg(storage_path('app/temp/documents_copy'));
 
-                // $this->generate_zip_and_download($folder_name, $document_local_path, $duplicateDirectory);
-                $saveTosDirectoryPath = public_path('documents_zip');
+                //$saveTosDirectoryPath = storage_path('app/temp');
+                $saveTosDirectoryPath = storage_path('app/temp/documents_zip');
+                //$saveTosDirectoryPath = public_path('documents_zip');
 
                 if (!File::exists($saveTosDirectoryPath)) {
                     File::makeDirectory($saveTosDirectoryPath, 0755, true);
                 }
 
                 $zipFileNameDownload = $folder_name.'.zip';
-                $zipFileNameSave = time().' '.$zipFileNameDownload;
+                $zipFileNameSave = $userId.''.time().' '.$zipFileNameDownload;
 
                 $zipOrgFilePath = $saveTosDirectoryPath.'/'.$zipFileNameSave;
                 $zipFilePath = escapeshellarg($saveTosDirectoryPath.'/'.$zipFileNameSave);
@@ -272,16 +274,16 @@ class DocumentController extends Controller
                     array_pop($document_path_array);
                     $folder_name = $documentDetails->name;
                     $document_local_path = escapeshellarg(storage_path('app/'.implode('/',$document_path_array)));
-                    //$this->generate_zip_and_download($folder_name,$document_local_path);
 
-                    $saveTosDirectoryPath = public_path('documents_zip');
+                    // $saveTosDirectoryPath = public_path('documents_zip');
+                    $saveTosDirectoryPath = storage_path('app/temp/documents_zip');
 
                     if (!File::exists($saveTosDirectoryPath)) {
                         File::makeDirectory($saveTosDirectoryPath, 0755, true);
                     }
 
                     $zipFileNameDownload = $folder_name.'.zip';
-                    $zipFileNameSave = time().' '.$zipFileNameDownload;
+                    $zipFileNameSave = $userId.''.time().' '.$zipFileNameDownload;
 
                     $zipOrgFilePath = $saveTosDirectoryPath.'/'.$zipFileNameSave;
                     $zipFilePath = escapeshellarg($saveTosDirectoryPath.'/'.$zipFileNameSave);
@@ -396,6 +398,7 @@ class DocumentController extends Controller
     private function saveDocument($filename, $totalChunks, $chunkDirectory,$request)
     {
         //this flow will run in case of folder upload only
+        $userId = Auth::parseToken()->getPayload()->get('userId');
         $parentId = $request->parentId;
         if(!empty($request->localPath)){
             $folders_array = explode('/',$request->localPath);
@@ -406,7 +409,8 @@ class DocumentController extends Controller
                     'type' => 'main',
                     'folderName' => ($key == 0 ? $request->mainFolder : $folderName),
                     'orgName' => $folderName,
-                    'by_folder_upload' => true
+                    'by_folder_upload' => true,
+                    'isPrivate' => $request->isPrivate
                 ];
                 $response = $this->createFolder(new \Illuminate\Http\Request($requestData));
                 $details = json_decode($response->getContent());
@@ -427,10 +431,12 @@ class DocumentController extends Controller
         }
 
         $filepath = 'documents';
+        if($request->isPrivate == 1){
+            $filepath = 'documents/documents_'.$userId;
+        }
         $is_main = 1;
         if($parentId  && $parentId != 'null' && $parentId != "undefined" ){
-            $details = $this->getDocumentbyId($parentId,'without_assigned');
-            $details = json_decode($details->getContent(), true);
+            $details = Documents::find($parentId);
             $filepath = $details['url'];
             $is_main = 0;
         }
@@ -453,7 +459,7 @@ class DocumentController extends Controller
         Storage::disk('local')->deleteDirectory($chunkDirectory); // Delete chunk directory
 
 
-        $request->request->add(['is_main' => $is_main, 'document_type' => 2, 'name' => $filename]);
+        $request->request->add(['is_main' => $is_main, 'isPrivate' => $request->isPrivate, 'document_type' => 2, 'name' => $filename]);
         $this->documentRepository->saveDocument($request, $completeFilePath);
     }
 
@@ -528,6 +534,9 @@ class DocumentController extends Controller
         if ($request->has('exclude_document')) {
             $this->queryString->exclude_document = $request->input('exclude_document');
         }
+        if ($request->has('is_owner')) {
+            $this->queryString->is_owner = $request->input('is_owner');
+        }
         $count = $this->documentRepository->assignedDocumentsCount($this->queryString);
         return response()->json($this->documentRepository->assignedDocuments($this->queryString))
             ->withHeaders(['totalCount' => $count, 'pageSize' => $this->queryString->pageSize, 'skip' => $this->queryString->skip]);
@@ -541,6 +550,7 @@ class DocumentController extends Controller
     public function addDocumentToMe($filename, $totalChunks, $chunkDirectory,$request)
     {
         //this flow will run in case of folder upload only
+        $userId = Auth::parseToken()->getPayload()->get('userId');
         $parentId = $request->parentId;
         if(!empty($request->localPath)){
             $folders_array = explode('/',$request->localPath);
@@ -610,20 +620,28 @@ class DocumentController extends Controller
     }
 
     public function createFolder(Request $request){
+        $userId = Auth::parseToken()->getPayload()->get('userId');
         $parentId = null;
         $is_main = 1;
         $errors = [];
+        $isPrivate = 0;
+        if(isset($request->isPrivate)){
+            $isPrivate = $request->isPrivate;
+        }
         if(!empty($request->documentId) && $request->documentId != 'null' && $request->documentId != "undefined"){
             $parentId = $request->documentId;
             $details = Documents::find($request->documentId);
             $dirPath = $details['url'];
             $path = $dirPath.'/'.$request->folderName;
-
             $is_main = 0;
+        }elseif($isPrivate == 1){
+            $dirPath = 'documents/documents_'.$userId;
+            $path = $dirPath .'/'.$request->folderName;
         }else{
             $dirPath = 'documents';
             $path = $dirPath .'/'.$request->folderName;
         }
+
         if (!Storage::exists($path)) {
             if(!Storage::makeDirectory($path)){
                 $errors['message'] = 'Unable to create folder';
@@ -656,6 +674,7 @@ class DocumentController extends Controller
             'is_main' => $is_main,
             'type' => $request->type,
             'document_type' => 1,
+            'isPrivate' => $isPrivate
         ]);
         if($request->type == 'main'){
             return response()->json($this->documentRepository->saveDocument($request, $path));
@@ -727,6 +746,7 @@ class DocumentController extends Controller
     }
 
     public function checkFolderExitence(Request $request){
+        $userId = Auth::parseToken()->getPayload()->get('userId');
         $localPath = $request->localPath;
         $folders_array = explode('/',$request->localPath);
         $mainFolder = $folderName = '';
@@ -737,6 +757,8 @@ class DocumentController extends Controller
         if(!empty($request->parentId) && $request->parentId != 'null' && $request->parentId != "undefined" && !empty($request->localPath)){
             $details = Documents::find($request->parentId);
             $path = $details['url'].'/'.$folderName;
+        }elseif($request->isPrivate == 1){
+            $path = 'documents/documents_'.$userId.'/'.$folderName;
         }else{
             $path = 'documents/'.$folderName;
         }
@@ -744,7 +766,6 @@ class DocumentController extends Controller
 
             $folderData = Documents::where('org_name',$folderName)->where('org_url',trim($path))->get();
             if(empty($folderData) || count($folderData) == 0){
-
                 $folderDataNew = Documents::where('name',$folderName)->where('url',trim($path))->orderBy('name','DESC')->first();
                 if(!empty($folderDataNew)){
                     // $folderData = Documents::where('org_name',$folderDataNew->org_name)->where('org_url',trim($folderDataNew->org_url))->orderBy('name','DESC')->first();
@@ -785,6 +806,7 @@ class DocumentController extends Controller
     }
 
     public function moveCopyDocument(Request $request){
+        $userId = Auth::parseToken()->getPayload()->get('userId');
         $details = Documents::find($request->documentId);
         $details->parentId = (!empty($details->parentId)) ? $details->parentId : null;
         $tofolder = (!empty($request->toFolder) && $request->toFolder != 'null') ? $request->toFolder : null;
@@ -794,17 +816,22 @@ class DocumentController extends Controller
             return response()->json($errors, 409);
             die;
         }
+
         /**here we are getting the old parent folder path,
         *so that we can remove exact same from the document we are moving and add new one*/
         if(!empty($details->parentId)){
             $oldParentDetails = Documents::find($details->parentId);
             $oldParentUrl = $oldParentDetails->url;
+        }elseif($request->isPrivate == 1){
+            $oldParentUrl = 'documents/documents_'.$userId;
         }else{
             $oldParentUrl = 'documents';
         }
         if(!empty($tofolder)){
             $toFolderDetails = Documents::find($tofolder);
             $toFolderPath = $toFolderDetails->url;
+        }elseif($request->isPrivate == 1){
+            $toFolderPath = 'documents/documents_'.$userId;
         }else{
             $toFolderPath = 'documents';
         }
@@ -817,6 +844,8 @@ class DocumentController extends Controller
         // Construct the full source and destination paths
         $sourcePath = storage_path("app/".$sourceFolderPath);
         $destinationPath = storage_path("app/".$destinationFolderPath);
+
+
         if($request->type == 'MOVE'){
             $newMovedName = '';
             if($details->document_type == 1){
@@ -824,6 +853,7 @@ class DocumentController extends Controller
                 $requestData = [
                     'parentId' => $tofolder,
                     'localPath' => $details->name,
+                    'isPrivate' => $request->isPrivate,
                 ];
                 $response = $this->checkFolderExitence(new \Illuminate\Http\Request($requestData));
                 $response_details = json_decode($response->getContent());
@@ -861,6 +891,7 @@ class DocumentController extends Controller
                         $details->url = $newMovedUrl;
                         $details->org_url = $toFolderPath.''.str_replace($oldParentUrl,'',trim($details->org_url));
                         $details->is_main = (!empty($details->parentId)) ? 0 : 1;
+
                         if($details->document_type == 1){
                             $detailsOldName = $details->name;
                             $details->name = $newMovedName;
@@ -869,10 +900,8 @@ class DocumentController extends Controller
                             foreach($childResults as $childResult){
                                 $childResultDetails = Documents::find($childResult['id']);
                                 $childResultDetails->url = $toFolderPath.''.str_replace($oldParentUrl,'',$childResultDetails->url);
-                                //$childResultDetails->url = str_replace($detailsOldName,$newMovedName,$childResultDetails->url);
                                 $childResultDetails->url = preg_replace('/'.$detailsOldName.'/', $newMovedName, $childResultDetails->url, 1);
                                 $childResultDetails->org_url = $toFolderPath.''.str_replace($oldParentUrl,'',$childResultDetails->org_url);
-                                //$childResultDetails->org_url = str_replace($detailsOldName,$newMovedName,$childResultDetails->org_url);
                                 $childResultDetails->org_url = preg_replace('/'.$detailsOldName.'/', $newMovedName, $childResultDetails->org_url, 1);
                                 $childResultDetails->save();
                             }
@@ -899,11 +928,11 @@ class DocumentController extends Controller
             $newCopyName = '';
             $newCopyNameDb = '';
             if($details->document_type == 1){
-
                  /**check if toFolder have same named file or folder already */
                  $requestData = [
                     'parentId' => $tofolder,
                     'localPath' => $details->name,
+                    'isPrivate' => $request->isPrivate,
                 ];
                 $response = $this->checkFolderExitence(new \Illuminate\Http\Request($requestData));
                 //$response = $this->checkFolderExitence(new \Illuminate\Http\Request($requestData));
@@ -918,12 +947,12 @@ class DocumentController extends Controller
                 $newMovedUrl = preg_replace('/'.$details->name.'/', $newCopyName, $newMovedUrl, 1);
             }else{
                 $urlArray = explode('/',$details->url);
-                $newCopyName = trim(end($urlArray));
+                $newCopyName = Uuid::uuid4().'.'.$details->mime_type;
                 $newCopyNameDb = $details->name;
                 $newMovedUrl = $toFolderPath.''.str_replace($oldParentUrl,'',$documentPath);
             }
 
-
+            //dd($sourcePath);
             if (!Storage::exists($sourceFolderPath)) {
                 $errors['message'] = "Source directory does not exist.";
                 return response()->json($errors, 409);
@@ -949,11 +978,11 @@ class DocumentController extends Controller
                             'parentId' => (!empty($tofolder))? $toFolderDetails->id : null,
                             'is_main' => (!empty($tofolder))? 0 : 1,
                             'document_type' => $details->document_type,
+                            'isPrivate' => $request->isPrivate,
                         ]);
-                        //dd($newCopyNameDb);
                         $savedNewCopyId = $this->documentRepository->saveDocument($request, $destinationFolderPath.'/'.$newCopyName);
                         if($details->document_type == 1){
-                            $this->saveNewCopyIntoDB($details->id, $oldParentUrl, $toFolderPath, $savedNewCopyId, $newCopyNameDb, $details->name);
+                            $this->saveNewCopyIntoDB($details->id, $oldParentUrl, $toFolderPath, $savedNewCopyId, $newCopyNameDb, $details->name, $request->isPrivate);
                         }
                         if(empty($tofolder)){
                             /**check moved folder permissions */
@@ -1009,7 +1038,6 @@ class DocumentController extends Controller
             if(!empty($documentId)){
                 $parent_documents_array = $this->documentRepository->create_all_parent_array($documentId);
             }
-            //dd($parent_documents_array);
             if(!empty($parent_documents_array) && count($parent_documents_array) > 1){
                 $parent_documents_array = array_reverse($parent_documents_array);
                 foreach($parent_documents_array as $parent_document){
@@ -1044,7 +1072,7 @@ class DocumentController extends Controller
         }
     }
 
-    public function saveNewCopyIntoDB($oldParentId, $oldParentUrl, $toFolderPath, $newCopyId, $newCopyNameDb, $oldName){
+    public function saveNewCopyIntoDB($oldParentId, $oldParentUrl, $toFolderPath, $newCopyId, $newCopyNameDb, $oldName, $isPrivate){
         $oldParentDetails = Documents::where('parentId',$oldParentId)->get();
 
         if($oldParentDetails){
@@ -1066,13 +1094,77 @@ class DocumentController extends Controller
                     'parentId' => $newCopyId,
                     'is_main' => 0,
                     'document_type' => $oldParentDetail->document_type,
+                    'isPrivate' => $isPrivate,
                 ]);
 
                 $savedNewCopyId = $this->documentRepository->saveDocument($request, $newUrl);
                 if($oldParentDetail->document_type == 1){
-                    $this->saveNewCopyIntoDB($oldParentDetail->id, $oldParentUrl, $toFolderPath, $savedNewCopyId, $newCopyNameDb, $oldName);
+                    $this->saveNewCopyIntoDB($oldParentDetail->id, $oldParentUrl, $toFolderPath, $savedNewCopyId, $newCopyNameDb, $oldName,$isPrivate);
                 }
             }
         }
+    }
+
+    public function renameDocument(Request $request){
+        $errors = [];
+        $details = Documents::find($request->documentId);
+        $old_path = $details->url;
+
+        if(!empty($details->parentId) && $details->parentId != 'null'){
+            $detailParent = Documents::find($details->parentId);
+            $dirPath = $detailParent['url'];
+            $path = $dirPath.'/'.$request->folderName;
+
+        }else{
+            $dirPath = 'documents';
+            $path = $dirPath .'/'.$request->folderName;
+        }
+        if($request->folderName == $details->name){
+            $errors['message'] = 'Please change the name';
+        }elseif($details->document_type == '1'){
+            if (!Storage::exists($path)) {
+                Storage::move($details->url, $path);
+                $details->name = $request->folderName;
+                $details->url = $path;
+                $details->save();
+
+                $childResults = $this->documentRepository->create_all_child_array($request->documentId);
+                if(!empty($childResults)){
+                    foreach($childResults as $child){
+                        $childDetails = Documents::find($child['id']);
+                        if(!empty($childDetails)){
+                            $childpath = str_replace($old_path,$path,$childDetails->url);
+                            $childDetails->url = $childpath;
+                            $childDetails->save();
+                        }
+                    }
+                }
+            }else{
+                $errors['message'] = 'This document name is already inside this directory';
+            }
+        }else{
+            if(!empty($details->parentId) && $details->parentId != 'null'){
+                $all_childs = Documents::where('parentId',$details->parentId)->get();
+            }else{
+                $all_childs = Documents::where('parentId',null)->get();
+            }
+            if(!empty($all_childs) && count($all_childs) > 0){
+                //dd(array_column($all_childs->toArray(),'name'));
+                $names_array = array_column($all_childs->toArray(),'name');
+                if(!in_array($request->folderName, $names_array)){
+                    $details->name = $request->folderName;
+                    $details->save();
+                }else{
+                    $errors['message'] = 'This document name is already inside this directory';
+                }
+            }
+
+        }
+
+        if(!empty($errors)){
+            return response()->json($errors, 409);
+            die;
+        }
+
     }
 }

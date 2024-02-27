@@ -232,5 +232,9 @@
   "MOVE" : "يتحرك",
   "CURRENT_LOCATION" : "الموقع الحالي",
   "DOCUMENT_COPY_SUCCESSFULLY": "تم نسخ المستند بنجاح",
-  "DOCUMENT_MOVE_SUCCESSFULLY": "تم نقل المستند بنجاح"
+  "DOCUMENT_MOVE_SUCCESSFULLY": "تم نقل المستند بنجاح",
+  "SELECT_DOCUMENT_TYPE": "حدد نوع المستند",
+  "RENAME_DOCUMENT": "إعادة تسمية المستند",
+  "DOCUMENT_RENAMED_SUCCESSFULLY": "تمت إعادة تسمية المستند بنجاح",
+  "MY_DOCUMENTS": "مستنداتي"
 }

@@ -40,7 +40,7 @@ import { DocumentUploadNewVersionComponent } from '../document-upload-new-versio
 import { DocumentVersionHistoryComponent } from '../document-version-history/document-version-history.component';
 import { DocumentService } from '../document.service';
 import { SendEmailComponent } from '../send-email/send-email.component';
-import { DocumentDataSource } from './document-datasource';
+import { DocumentDataSource } from './my-document-datasource';
 import { FormControl } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { DocumentCreateFolderComponent } from '../document-create-folder/document-create-folder.component';
@@ -51,11 +51,11 @@ import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-document-list',
-  templateUrl: './document-list.component.html',
-  styleUrls: ['./document-list.component.scss'],
+  templateUrl: './my-document-list.component.html',
+  styleUrls: ['./my-document-list.component.scss'],
   viewProviders: [DatePipe]
 })
-export class DocumentListComponent
+export class MyDocumentListComponent
   extends BaseComponent
   implements OnInit, AfterViewInit {
   dataSource: DocumentDataSource;
@@ -121,11 +121,11 @@ export class DocumentListComponent
   }
 
   ngOnInit(): void {
-    this.documentService.privateDocument = 0;
     this.dataSource = new DocumentDataSource(this.documentService);
-
+    this.documentService.privateDocument = 1;
     this.route.params.subscribe(params => {
       this.showFolder = params['id'];
+      this.documentResource.is_owner = 1;
       if(this.showFolder){
         this.documentResource.parentId = this.showFolder;
         this.documentResource.skip = 0;
@@ -149,6 +149,7 @@ export class DocumentListComponent
     this.getResourceParameter();
     this.mainPagePaginator.pageIndex = 0;
     this.mainPagePaginator.skip = 0;
+
   }
 
   ngAfterViewInit() {
@@ -647,7 +648,7 @@ export class DocumentListComponent
   documentMoveAction(document: DocumentInfo){
     const dialogRef = this.dialog.open(DocumentMoveCopyComponent, {
       width: '1000px',
-      data: {documentDetails : document,type : 'MOVE'}
+      data: {documentDetails : document, is_owner : 1, type : 'MOVE'}
     });
     dialogRef.afterClosed().subscribe((isRestore: boolean) => {
       this.dataSource.loadDocuments(this.documentResource);
@@ -656,7 +657,7 @@ export class DocumentListComponent
   documentCopyAction(document: DocumentInfo){
     const dialogRef = this.dialog.open(DocumentMoveCopyComponent, {
       width: '1000px',
-      data: {documentDetails : document,type : 'COPY'}
+      data: {documentDetails : document, is_owner : 1, type : 'COPY'}
     });
     dialogRef.afterClosed().subscribe((isRestore: boolean) => {
       this.dataSource.loadDocuments(this.documentResource);

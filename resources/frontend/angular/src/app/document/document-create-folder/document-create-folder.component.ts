@@ -19,6 +19,7 @@ export class DocumentCreateFolderComponent extends BaseComponent implements OnIn
   createFolder: UntypedFormGroup;
   public editor: any = ClassicEditor;
   isLoading = false;
+  isPrivate: any = 0;
 
   constructor(
     private documentService: DocumentService,
@@ -34,6 +35,7 @@ export class DocumentCreateFolderComponent extends BaseComponent implements OnIn
 
   ngOnInit(): void {
     this.createCreateFolder();
+    this.isPrivate = this.documentService.privateDocument;
   }
 
   closeDialog() {
@@ -46,7 +48,7 @@ export class DocumentCreateFolderComponent extends BaseComponent implements OnIn
     });
   }
   folderNameValidator(control: AbstractControl): ValidationErrors | null {
-    const forbiddenChars = /[@#%&*()_+/]/;
+    const forbiddenChars = /[*:?"<>|\\/]/;
     if (forbiddenChars.test(control.value)) {
       return { forbiddenChars: true };
     }
@@ -78,6 +80,7 @@ export class DocumentCreateFolderComponent extends BaseComponent implements OnIn
       documentId: this.data.parentId,
       folderName: this.createFolder.get('folderName').value,
       type: 'main',
+      isPrivate: this.isPrivate,
     }
     return createFolder;
   }

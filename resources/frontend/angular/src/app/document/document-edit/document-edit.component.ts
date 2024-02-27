@@ -30,6 +30,7 @@ export class DocumentEditComponent extends BaseComponent implements OnInit {
   @Input() categories: Category[];
   @Input() documentInfo: DocumentInfo;
   documentSource: string;
+  privateDocument: any = 0;
 
   get documentMetaTagsArray(): FormArray {
     return <FormArray>this.documentForm.get('documentMetaTags');
@@ -51,6 +52,7 @@ export class DocumentEditComponent extends BaseComponent implements OnInit {
     this.createDocumentForm();
     this.pushValuesDocumentMetatagArray();
     this.patchDocumentForm();
+    this.privateDocument = this.documentService.privateDocument;
   }
 
   patchDocumentForm() {
